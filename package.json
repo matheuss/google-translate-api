@@ -1,0 +1,32 @@
+{
+  "name": "google-translate-api",
+  "version": "1.0.0",
+  "description": "A free and unlimited API for Google Translate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matheuss/google-translate-api.git"
+  },
+  "keywords": [
+    "translate",
+    "translator",
+    "google",
+    "translate",
+    "api",
+    "free",
+    "language"
+  ],
+  "author": {
+    "name": "Matheus Fernandes",
+    "email": "npm@matheus.top",
+    "url": "http://matheus.top"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matheuss/google-translate-api/issues"
+  },
+  "homepage": "https://github.com/matheuss/google-translate-api#readme"
+}
