@@ -1,6 +1,6 @@
 {
   "name": "google-translate-api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A free and unlimited API for Google Translate",
   "main": "index.js",
   "scripts": {
@@ -28,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/matheuss/google-translate-api/issues"
   },
-  "homepage": "https://github.com/matheuss/google-translate-api#readme"
+  "homepage": "https://github.com/matheuss/google-translate-api#readme",
+  "dependencies": {
+    "configstore": "^2.0.0",
+    "request": "^2.72.0"
+  }
 }
