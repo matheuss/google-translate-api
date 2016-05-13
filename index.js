@@ -8,7 +8,7 @@ var request = require("request"),
 
 module.exports = function translate(from, to, text, cb) {
     tk(text, function (err, tk) {
-        if (!err) return cb(err);
+        if (err) return cb(err);
 
         var url = 'https://translate.google.com/translate_a/single';
         var data = {

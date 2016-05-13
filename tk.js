@@ -96,7 +96,7 @@ function updateTKK(cb) {
             if (err) {
                 var e = new Error();
                 e.code = 'BAD_NETWORK';
-                return cb(err);
+                return cb(e);
             } else {
                 var code = body.match(/TKK=(.*?)\(\)\)'\);/g);
 
@@ -121,7 +121,7 @@ function updateTKK(cb) {
 
 module.exports = function get(text, cb) {
     updateTKK(function (err) {
-        if (!err) return cb(err);
+        if (err) return cb(err);
 
         var tk = sM(text);
         tk = tk.replace('&tk=', '');
