@@ -2,20 +2,18 @@
  * Created by Matheus Fernandes on 5/11/16.
  */
 
-var request = require("request"),
-    querystring = require("querystring"),
-    tk = require('./tk');
+var querystring = require('querystring');
+var got = require('got');
+var tk = require('./tk');
 
-module.exports = function translate(from, to, text, cb) {
-    tk(text, function (err, tk) {
-        if (err) return cb(err);
-
+function translate(text, opts) {
+    return tk(text).then(function (tk) {
         var url = 'https://translate.google.com/translate_a/single';
         var data = {
             client: 't',
-            sl: from,
-            tl: to,
-            hl: from,
+            sl: opts.from || 'auto',
+            tl: opts.to,
+            hl: opts.from || 'en',
             dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
             ie: 'UTF-8',
             oe: 'UTF-8',
@@ -23,35 +21,71 @@ module.exports = function translate(from, to, text, cb) {
             ssel: 0,
             tsel: 0,
             kc: 7,
-            tk: tk,
+            tk: opts.tk || tk,
             q: text
         };
 
-        url += '?' + querystring.stringify(data);
-
-        request.get({
-            url: url
-        }, function (err, res, body) {
-            if (err) {
-                var e = new Error();
-                e.code = 'BAD_NETWORK';
-                return cb(e);
+        return url + '?' + querystring.stringify(data);
+    }).then(function (url) {
+        return got(url).then(function (res) {
+            if (opts.raw) {
+                return res.body;
             }
 
-            if (res.statusCode != 200) {
-                var e = new Error();
-                e.code = 'BAD_REQUEST';
-                return cb(e);
+            var result = {
+                text: {
+                    corrected: false,
+                    correction: '',
+                    value: ''
+                },
+                from: {
+                    corrected: false,
+                    iso: ''
+                }
+            };
+
+            if (opts.includeRaw) {
+                result.raw = res.body;
             }
 
-            var result = '';
-            eval(body)[0].forEach(function (obj) {
-                if (obj[0] != undefined) {
-                    result += obj[0];
+            var body = eval(res.body);
+            body[0].forEach(function (obj) {
+                if (obj[0] !== undefined) {
+                    result.text.value += obj[0];
                 }
             });
 
-            cb(null, result);
+            if (body[2] === body[8][0][0]) {
+                result.from.iso = body[2];
+            } else {
+                result.from.corrected = true;
+                result.from.iso = body[8][0][0];
+            }
+
+            if (body[7] !== undefined) {
+                var str = body[7][0];
+
+                str = str.replace(/<b><i>/g, '[');
+                str = str.replace(/<\/i><\/b>/g, ']');
+
+                result.text.corrected = true;
+                result.text.correction = str;
+            }
+
+            return result;
+        }).catch(function (err) {
+            var e;
+            if (err.statusCode !== undefined && err.statusCode !== 200) {
+                e = new Error();
+                e.code = 'BAD_REQUEST';
+                throw e;
+            } else {
+                e = new Error();
+                e.code = 'BAD_NETWORK';
+                throw e;
+            }
         });
     });
-};
+}
+
+module.exports = translate;

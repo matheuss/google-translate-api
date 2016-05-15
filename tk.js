@@ -10,7 +10,7 @@
  * Everything between 'BEGIN' and 'END' comments was copied and pasted from the url above.
  *
  */
-var request = require('request'),
+var got = require('got'),
     Configstore = require('configstore');
 
 // BEGIN
@@ -86,19 +86,15 @@ var window = {
     TKK: config.get('TKK') || '0'
 };
 
-function updateTKK(cb) {
-    var now = Math.floor(Date.now() / 3600000);
+function updateTKK() {
+    return new Promise(function (resolve, reject) {
+        var now = Math.floor(Date.now() / 3600000);
 
-    if (Number(window.TKK.split('.')[0]) == now) {
-        cb(null);
-    } else {
-        request.get('https://translate.google.com', function (err, res, body) {
-            if (err) {
-                var e = new Error();
-                e.code = 'BAD_NETWORK';
-                return cb(e);
-            } else {
-                var code = body.match(/TKK=(.*?)\(\)\)'\);/g);
+        if (Number(window.TKK.split('.')[0]) == now) {
+            resolve();
+        } else {
+            got('https://translate.google.com').then(function (res) {
+                var code = res.body.match(/TKK=(.*?)\(\)\)'\);/g);
 
                 if (code) {
                     eval(code[0]);
@@ -113,18 +109,22 @@ function updateTKK(cb) {
                  * relatively old seeds.
                  */
 
-                cb(null);
-            }
-        });
-    }
+                resolve();
+            }).catch(function (ignored) {
+                var e = new Error();
+                e.code = 'BAD_NETWORK';
+                reject(e);
+            });
+        }
+    });
 }
 
-module.exports = function get(text, cb) {
-    updateTKK(function (err) {
-        if (err) return cb(err);
-
+module.exports = function get(text) {
+    return updateTKK().then(function () {
         var tk = sM(text);
         tk = tk.replace('&tk=', '');
-        cb(null, tk);
+        return tk;
+    }).catch(function (err) {
+        throw err;
     });
 };
