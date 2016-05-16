@@ -7,6 +7,7 @@ var got = require('got');
 var tk = require('./tk');
 
 function translate(text, opts) {
+    opts = opts || {};
     return tk(text).then(function (tk) {
         var url = 'https://translate.google.com/translate_a/single';
         var data = {
