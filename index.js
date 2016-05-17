@@ -34,14 +34,17 @@ function translate(text, opts) {
             }
 
             var result = {
-                text: {
-                    corrected: false,
-                    correction: '',
-                    value: ''
-                },
+                text: '',
                 from: {
-                    corrected: false,
-                    iso: ''
+                    language: {
+                        didYouMean: false,
+                        iso: ''
+                    },
+                    text: {
+                        autoCorrected: false,
+                        value: '',
+                        didYouMean: false
+                    }
                 }
             };
 
@@ -52,25 +55,30 @@ function translate(text, opts) {
             var body = eval(res.body);
             body[0].forEach(function (obj) {
                 if (obj[0] !== undefined) {
-                    result.text.value += obj[0];
+                    result.text += obj[0];
                 }
             });
 
             if (body[2] === body[8][0][0]) {
-                result.from.iso = body[2];
+                result.from.language.iso = body[2];
             } else {
-                result.from.corrected = true;
-                result.from.iso = body[8][0][0];
+                result.from.language.didYouMean = true;
+                result.from.language.iso = body[8][0][0];
             }
 
-            if (body[7] !== undefined) {
+            if (body[7] !== undefined && body[7][0] !== undefined) {
                 var str = body[7][0];
 
                 str = str.replace(/<b><i>/g, '[');
                 str = str.replace(/<\/i><\/b>/g, ']');
 
-                result.text.corrected = true;
-                result.text.correction = str;
+                result.from.text.value = str;
+
+                if (body[7][5] === true) {
+                    result.from.text.autoCorrected = true;
+                } else {
+                    result.from.text.didYouMean = true;
+                }
             }
 
             return result;
