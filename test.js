@@ -5,15 +5,16 @@
 import test from 'ava';
 import translate from './index';
 
-test('translate from \'\' (auto) to \'\' (english)', async t => {
+test('translate without any options', async t => {
     try {
-        const res = await translate('Ik spreek Engels');
+        const res = await translate('vertaler');
 
-        t.falsy(res.text.corrected);
-        t.falsy(res.text.correction);
-        t.is(res.text.value, 'I speak English');
-        t.falsy(res.from.corrected);
-        t.is(res.from.iso, 'nl');
+        t.is(res.text, 'translator');
+        t.false(res.from.language.didYouMean);
+        t.is(res.from.language.iso, 'nl');
+        t.false(res.from.text.autoCorrected);
+        t.is(res.from.text.value, '');
+        t.false(res.from.text.didYouMean);
     } catch (err) {
         t.fail(err.code);
     }
@@ -21,13 +22,14 @@ test('translate from \'\' (auto) to \'\' (english)', async t => {
 
 test('translate from auto to dutch', async t => {
     try {
-        const res = await translate('I speak Dutch', {from: 'auto', to: 'nl'});
+        const res = await translate('translator', {from: 'auto', to: 'nl'});
 
-        t.falsy(res.text.corrected);
-        t.falsy(res.text.correction);
-        t.is(res.text.value, 'ik spreek Nederlands');
-        t.falsy(res.from.corrected);
-        t.is(res.from.iso, 'en');
+        t.is(res.text, 'vertaler');
+        t.false(res.from.language.didYouMean);
+        t.is(res.from.language.iso, 'en');
+        t.false(res.from.text.autoCorrected);
+        t.is(res.from.text.value, '');
+        t.false(res.from.text.didYouMean);
     } catch (err) {
         t.fail(err.code);
     }
@@ -35,13 +37,10 @@ test('translate from auto to dutch', async t => {
 
 test('translate some english text setting the source language as portuguese', async t => {
     try {
-        const res = await translate('I speak Dutch', {from: 'pt', to: 'nl'});
+        const res = await translate('translator', {from: 'pt', to: 'nl'});
 
-        t.falsy(res.text.corrected);
-        t.falsy(res.text.correction);
-        t.is(res.text.value, 'Ik spreek Nederlands');
-        t.truthy(res.from.corrected);
-        t.is(res.from.iso, 'en');
+        t.true(res.from.language.didYouMean);
+        t.is(res.from.language.iso, 'en');
     } catch (err) {
         t.fail(err.code);
     }
@@ -51,11 +50,11 @@ test('translate some misspelled english text to dutch', async t => {
     try {
         const res = await translate('I spea Dutch', {from: 'en', to: 'nl'});
 
-        t.truthy(res.text.corrected);
-        t.is(res.text.correction, 'I [speak] Dutch');
-        t.is(res.text.value, 'ik spreek Nederlands');
-        t.falsy(res.from.corrected);
-        t.is(res.from.iso, 'en');
+        if (res.from.text.autoCorrected || res.from.text.didYouMean) {
+            t.is(res.from.text.value, 'I [speak] Dutch');
+        } else {
+            t.fail();
+        }
     } catch (err) {
         t.fail(err.code);
     }
