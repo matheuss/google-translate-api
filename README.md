@@ -31,7 +31,50 @@ translate('Ik spreek Engels', {from: 'auto', to: 'en'}).then(res => {
 
 ## API
 
-- TODO: docs
+### translate(text, options)
+
+Returns an object with:
+
+- `text` *(string)* – The translated text.
+- `from` *(object)*
+  - `language` *(object)*
+    - `didYouMean` *(boolean)* - Will be true if the API suggest a correction in the source language
+    - `iso` *(string)* - The [code of the language](https://github.com/matheuss/google-translate-api/blob/master/languages.js) that the API has recognized in the `text`
+  - `text` *(object)*
+    - `autoCorrected` *(boolean)* – Will be true if the API has auto corrected the `text`
+    - `value` *(string)* – The auto corrected `text` or the `text` with suggested corrections
+    - `didYouMean` *(booelan)* – Will be true if the API has suggested corrections to the `text`
+
+Note that `res.from.text` will only be returned if `from.text.autoCorrected` or `from.text.didYouMean` equals to `true`. In this case, it will have the corrections delimited with brackets (`[ ]`): 
+``` js
+translate('I spea Dutch').then(res => {
+    console.log(res.from.text.value);
+    //=> I [speak] Dutch
+});
+```
+Otherwise, it will be an empty `string` (`''`).
+
+#### text
+
+Type: `string`
+
+The text to be translated
+
+#### options
+
+Type: `object`
+
+##### from
+
+Type: `string` Default: `'auto'`
+
+The `text` language. Must be `'auto'`, `''` (same effect of `'auto'`)  or one of the codes contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
+
+##### to
+
+Type: `string` 
+
+The language in which the text should be translated. Must be one of the codes contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
 
 ## Related
 - [`vertaler`](https://github.com/matheuss/vertaler) – CLI for this module
