@@ -47,7 +47,8 @@
       "no-eval": 1
     },
     "ignores": [
-      "tk.js"
+      "tk.js",
+      "languages.js"
     ]
   }
 }
