@@ -29,10 +29,6 @@ function translate(text, opts) {
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
         return got(url).then(function (res) {
-            if (opts.raw) {
-                return res.body;
-            }
-
             var result = {
                 text: '',
                 from: {
@@ -45,10 +41,11 @@ function translate(text, opts) {
                         value: '',
                         didYouMean: false
                     }
-                }
+                },
+                raw: ''
             };
 
-            if (opts.includeRaw) {
+            if (opts.raw) {
                 result.raw = res.body;
             }
 

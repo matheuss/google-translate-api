@@ -70,18 +70,9 @@ test('translate some text with an invalid tk', async t => {
 
 test.todo('try to translate some text without an internet connection');
 
-test('translate some text and get only the raw output', async t => {
-    try {
-        const res = await translate('vertaler', {raw: true});
-        t.truthy(res);
-    } catch (err) {
-        t.fail(err.code);
-    }
-});
-
 test('translate some text and get the raw output alongside', async t => {
     try {
-        const res = await translate('vertaler', {includeRaw: true});
+        const res = await translate('vertaler', {raw: true});
         t.truthy(res.raw);
     } catch (err) {
         t.fail(err.code);
