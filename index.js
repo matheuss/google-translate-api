@@ -81,15 +81,13 @@ function translate(text, opts) {
             return result;
         }).catch(function (err) {
             var e;
+            e = new Error();
             if (err.statusCode !== undefined && err.statusCode !== 200) {
-                e = new Error();
                 e.code = 'BAD_REQUEST';
-                throw e;
             } else {
-                e = new Error();
                 e.code = 'BAD_NETWORK';
-                throw e;
             }
+            throw e;
         });
     });
 }
