@@ -1,7 +1,3 @@
-/**
- * Created by Matheus Fernandes on 5/11/16.
- */
-
 var querystring = require('querystring');
 var got = require('got');
 var tk = require('./tk');

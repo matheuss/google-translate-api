@@ -1,5 +1,4 @@
 /**
- * Created by matheus on 5/15/16.
  *
  * Generated from https://translate.google.com
  *

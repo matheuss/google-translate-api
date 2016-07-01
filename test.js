@@ -1,7 +1,3 @@
-/**
- * Created by matheus on 5/14/16.
- */
-
 import test from 'ava';
 import translate from './index';
 
