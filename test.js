@@ -56,14 +56,6 @@ test('translate some misspelled english text to dutch', async t => {
     }
 });
 
-test('translate some text with an invalid tk', async t => {
-    try {
-        await translate('vertaler', {tk: 0});
-    } catch (err) {
-        t.is(err.code, 'BAD_REQUEST');
-    }
-});
-
 test.todo('try to translate some text without an internet connection');
 
 test('translate some text and get the raw output alongside', async t => {

@@ -1,10 +1,10 @@
 var querystring = require('querystring');
 var got = require('got');
-var tk = require('./tk');
+var token = require('google-translate-token');
 
 function translate(text, opts) {
     opts = opts || {};
-    return tk(text).then(function (tk) {
+    return token.get(text).then(function (token) {
         var url = 'https://translate.google.com/translate_a/single';
         var data = {
             client: 't',
@@ -18,9 +18,9 @@ function translate(text, opts) {
             ssel: 0,
             tsel: 0,
             kc: 7,
-            tk: opts.tk || tk,
             q: text
         };
+        data[token.name] = token.value;
 
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
