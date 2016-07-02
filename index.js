@@ -1,6 +1,7 @@
 var querystring = require('querystring');
 var got = require('got');
 var token = require('google-translate-token');
+var safeEval = require('safe-eval');
 
 function translate(text, opts) {
     opts = opts || {};
@@ -45,7 +46,7 @@ function translate(text, opts) {
                 result.raw = res.body;
             }
 
-            var body = eval(res.body);
+            var body = safeEval(res.body);
             body[0].forEach(function (obj) {
                 if (obj[0] !== undefined) {
                     result.text += obj[0];
