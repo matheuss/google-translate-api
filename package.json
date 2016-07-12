@@ -44,9 +44,6 @@
     "xo": "^0.15.1"
   },
   "xo": {
-    "space": 4,
-    "ignores": [
-      "languages.js"
-    ]
+    "space": 4
   }
 }

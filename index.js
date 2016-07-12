@@ -1,7 +1,10 @@
 var querystring = require('querystring');
+
 var got = require('got');
-var token = require('google-translate-token');
 var safeEval = require('safe-eval');
+var token = require('google-translate-token');
+
+var languages = require('./languages');
 
 function translate(text, opts) {
     opts = opts || {};
