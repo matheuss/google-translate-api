@@ -1,4 +1,6 @@
 import test from 'ava';
+
+import languages from './languages';
 import translate from './index';
 
 test('translate without any options', async t => {
@@ -65,4 +67,24 @@ test('translate some text and get the raw output alongside', async t => {
     } catch (err) {
         t.fail(err.code);
     }
+});
+
+test('get a supported language by code', t => {
+    t.true(languages.isSupported('en'));
+});
+
+test('get an unsupported language by code', t => {
+    t.false(languages.isSupported('js'));
+});
+
+test('get a supported language by name', t => {
+    t.true(languages.isSupported('english'));
+});
+
+test('get an unsupported language by name', t => {
+    t.false(languages.isSupported('javascript'));
+});
+
+test('get a supported language by a part of its name', t => {
+    t.true(languages.isSupported('chinese'));
 });

@@ -112,4 +112,23 @@ var langs = {
     'zu': 'Zulu'
 };
 
+function isSupported(desiredLang) {
+    desiredLang = desiredLang.toLowerCase();
+
+    if (langs[desiredLang]) {
+        return true;
+    }
+
+    var result = Object.keys(langs).filter(function (key) {
+        if (typeof langs[key] !== 'string') {
+            return false;
+        }
+
+        return langs[key].toLowerCase().indexOf(desiredLang) !== -1;
+    });
+
+    return result.length > 0;
+}
+
 module.exports = langs;
+module.exports.isSupported = isSupported;

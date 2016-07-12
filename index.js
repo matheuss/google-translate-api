@@ -93,3 +93,4 @@ function translate(text, opts) {
 }
 
 module.exports = translate;
+module.exports.languages = languages;
