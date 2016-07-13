@@ -111,7 +111,11 @@ var langs = {
     'yo': 'Yoruba',
     'zu': 'Zulu'
 };
-
+/**
+ * Returns the ISO 639-1 code of the desiredLang – if it is supported by Google Translate
+ * @param {string} desiredLang – the name of the desired language
+ * @returns {string|boolean} The ISO 639-1 code of the language or false if the language is not supported
+ */
 function getCode(desiredLang) {
     desiredLang = desiredLang.toLowerCase();
 
@@ -126,6 +130,11 @@ function getCode(desiredLang) {
     return keys[0] || false;
 }
 
+/**
+ * Returns true if the desiredLang is supported by Google Translate and false otherwise
+ * @param desiredLang – the ISO 639-1 code or the name of the desired language
+ * @returns {boolean}
+ */
 function isSupported(desiredLang) {
     desiredLang = desiredLang.toLowerCase();
 
