@@ -69,32 +69,32 @@ test('translate some text and get the raw output alongside', async t => {
     }
 });
 
-test('get a supported language by code', t => {
+test('test a supported language – by code', t => {
     t.true(languages.isSupported('en'));
 });
 
-test('get an unsupported language by code', t => {
+test('test an unsupported language – by code', t => {
     t.false(languages.isSupported('js'));
 });
 
-test('get a supported language by name', t => {
+test('test a supported language – by name', t => {
     t.true(languages.isSupported('english'));
 });
 
-test('get an unsupported language by name', t => {
+test('test an unsupported language – by name', t => {
     t.false(languages.isSupported('javascript'));
 });
 
-test('get a supported language by a part of its name', t => {
-    t.true(languages.isSupported('chinese'));
-});
-
 test('get a language code by its name', t => {
-    t.is('en', languages.getCode('english'));
+    t.is(languages.getCode('english'), 'en');
 });
 
 test('get an unsupported language code by its name', t => {
     t.false(languages.getCode('javascript'));
+});
+
+test('get a supported language code by code', t => {
+    t.is(languages.getCode('en'), 'en');
 });
 
 test('try to translate from an unsupported language', async t => {

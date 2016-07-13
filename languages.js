@@ -7,6 +7,7 @@
  */
 
 var langs = {
+    'auto': 'Automatic',
     'af': 'Afrikaans',
     'sq': 'Albanian',
     'ar': 'Arabic',
@@ -113,18 +114,22 @@ var langs = {
 };
 /**
  * Returns the ISO 639-1 code of the desiredLang – if it is supported by Google Translate
- * @param {string} desiredLang – the name of the desired language
+ * @param {string} desiredLang – the name or the code of the desired language
  * @returns {string|boolean} The ISO 639-1 code of the language or false if the language is not supported
  */
 function getCode(desiredLang) {
     desiredLang = desiredLang.toLowerCase();
+
+    if (langs[desiredLang]) {
+        return desiredLang;
+    }
 
     var keys = Object.keys(langs).filter(function (key) {
         if (typeof langs[key] !== 'string') {
             return false;
         }
 
-        return langs[key].toLowerCase().indexOf(desiredLang) !== -1;
+        return langs[key].toLowerCase() === desiredLang;
     });
 
     return keys[0] || false;
@@ -136,12 +141,6 @@ function getCode(desiredLang) {
  * @returns {boolean}
  */
 function isSupported(desiredLang) {
-    desiredLang = desiredLang.toLowerCase();
-
-    if (langs[desiredLang]) {
-        return true;
-    }
-
     return Boolean(getCode(desiredLang));
 }
 
