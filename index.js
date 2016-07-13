@@ -8,6 +8,21 @@ var languages = require('./languages');
 
 function translate(text, opts) {
     opts = opts || {};
+
+    var e;
+    [opts.from, opts.to].forEach(function (lang) {
+        if (lang && lang !== 'auto' && !languages.isSupported(lang)) {
+            e = new Error();
+            e.code = 400;
+            e.message = 'The language \'' + lang + '\' is not supported';
+        }
+    });
+    if (e) {
+        return new Promise(function (resolve, reject) {
+            reject(e);
+        });
+    }
+
     return token.get(text).then(function (token) {
         var url = 'https://translate.google.com/translate_a/single';
         var data = {
