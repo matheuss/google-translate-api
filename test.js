@@ -88,3 +88,11 @@ test('get an unsupported language by name', t => {
 test('get a supported language by a part of its name', t => {
     t.true(languages.isSupported('chinese'));
 });
+
+test('get a language code by its name', t => {
+    t.is('en', languages.getCode('english'));
+});
+
+test('get an unsupported language code by its name', t => {
+    t.false(languages.getCode('javascript'));
+});

@@ -112,14 +112,10 @@ var langs = {
     'zu': 'Zulu'
 };
 
-function isSupported(desiredLang) {
+function getCode(desiredLang) {
     desiredLang = desiredLang.toLowerCase();
 
-    if (langs[desiredLang]) {
-        return true;
-    }
-
-    var result = Object.keys(langs).filter(function (key) {
+    var keys = Object.keys(langs).filter(function (key) {
         if (typeof langs[key] !== 'string') {
             return false;
         }
@@ -127,8 +123,23 @@ function isSupported(desiredLang) {
         return langs[key].toLowerCase().indexOf(desiredLang) !== -1;
     });
 
-    return result.length > 0;
+    return keys[0] || false;
+}
+
+function isSupported(desiredLang) {
+    desiredLang = desiredLang.toLowerCase();
+
+    if (langs[desiredLang]) {
+        return true;
+    }
+
+    if (desiredLang.length < 4) {
+        return false;
+    }
+
+    return Boolean(getCode(desiredLang));
 }
 
 module.exports = langs;
 module.exports.isSupported = isSupported;
+module.exports.getCode = getCode;
