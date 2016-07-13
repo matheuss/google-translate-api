@@ -85,13 +85,13 @@ Type: `object`
 
 Type: `string` Default: `auto`
 
-The `text` language. Must be `auto`, `''` (same effect of `auto`)  or one of the codes contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
+The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js)
 
 ##### to
 
 Type: `string` Default: `en`
 
-The language in which the text should be translated. Must be one of the codes contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
+The language in which the text should be translated. Must be one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
 
 ##### raw
 
