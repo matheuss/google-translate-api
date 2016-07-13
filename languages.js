@@ -142,10 +142,6 @@ function isSupported(desiredLang) {
         return true;
     }
 
-    if (desiredLang.length < 4) {
-        return false;
-    }
-
     return Boolean(getCode(desiredLang));
 }
 
