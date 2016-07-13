@@ -11,7 +11,7 @@ function translate(text, opts) {
 
     var e;
     [opts.from, opts.to].forEach(function (lang) {
-        if (lang && lang !== 'auto' && !languages.isSupported(lang)) {
+        if (lang && !languages.isSupported(lang)) {
             e = new Error();
             e.code = 400;
             e.message = 'The language \'' + lang + '\' is not supported';
@@ -23,13 +23,16 @@ function translate(text, opts) {
         });
     }
 
+    opts.from = opts.from || 'auto';
+    opts.to = opts.to || 'en';
+
     return token.get(text).then(function (token) {
         var url = 'https://translate.google.com/translate_a/single';
         var data = {
             client: 't',
-            sl: opts.from || 'auto',
+            sl: opts.from,
             tl: opts.to,
-            hl: opts.from || 'en',
+            hl: opts.to,
             dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
             ie: 'UTF-8',
             oe: 'UTF-8',

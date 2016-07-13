@@ -89,7 +89,7 @@ The `text` language. Must be `auto`, `''` (same effect of `auto`)  or one of the
 
 ##### to
 
-Type: `string`
+Type: `string` Default: `en`
 
 The language in which the text should be translated. Must be one of the codes contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
 
