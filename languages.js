@@ -118,6 +118,9 @@ var langs = {
  * @returns {string|boolean} The ISO 639-1 code of the language or false if the language is not supported
  */
 function getCode(desiredLang) {
+    if (!desiredLang) {
+        return false;
+    }
     desiredLang = desiredLang.toLowerCase();
 
     if (langs[desiredLang]) {

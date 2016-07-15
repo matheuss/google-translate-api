@@ -97,6 +97,22 @@ test('get a supported language code by code', t => {
     t.is(languages.getCode('en'), 'en');
 });
 
+test('call getCode with \'undefined\'', t => {
+    t.is(languages.getCode(undefined), false);
+});
+
+test('call getCode with \'null\'', t => {
+    t.is(languages.getCode(null), false);
+});
+
+test('call getCode with an empty string', t => {
+    t.is(languages.getCode(''), false);
+});
+
+test('call getCode with no arguments', t => {
+    t.is(languages.getCode(), false);
+});
+
 test('try to translate from an unsupported language', async t => {
     try {
         await translate('something', {from: 'js', to: 'en'});
