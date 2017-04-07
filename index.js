@@ -46,10 +46,21 @@ function translate(text, opts) {
             q: text
         };
         data[token.name] = token.value;
+        
+        let fullUrl = url + '?' + querystring.stringify(data);
+        if(fullUrl.length > 2083) {
+            delete data.q;
+            return [
+                url + '?' + querystring.stringify(data),
+                { method: 'POST', body: { q: text }}
+            ];
 
-        return url + '?' + querystring.stringify(data);
+        } else {
+            return [fullUrl];
+        }
+        
     }).then(function (url) {
-        return got(url).then(function (res) {
+        return got(...url).then(function (res) {
             var result = {
                 text: '',
                 from: {
