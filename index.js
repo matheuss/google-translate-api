@@ -47,9 +47,23 @@ function translate(text, opts) {
         };
         data[token.name] = token.value;
 
-        return url + '?' + querystring.stringify(data);
+        let fullUrl = url + '?' + querystring.stringify(data);
+        if(fullUrl.length > 2083) {
+            delete data.q;
+            return [
+                url + '?' + querystring.stringify(data),
+                {
+                    method: 'POST',
+                    body: {
+                        q: text
+                    }
+                }
+            ];
+        } else {
+            return [fullUrl];
+        }
     }).then(function (url) {
-        return got(url).then(function (res) {
+        return got(...url).then(function (res) {
             var result = {
                 text: '',
                 from: {
