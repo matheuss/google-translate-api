@@ -10,6 +10,7 @@ var langs = {
     'auto': 'Automatic',
     'af': 'Afrikaans',
     'sq': 'Albanian',
+    'am': 'Amharic'
     'ar': 'Arabic',
     'hy': 'Armenian',
     'az': 'Azerbaijani',
