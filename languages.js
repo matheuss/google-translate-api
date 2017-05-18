@@ -10,6 +10,7 @@ var langs = {
     'auto': 'Automatic',
     'af': 'Afrikaans',
     'sq': 'Albanian',
+    'am': 'Amharic'
     'ar': 'Arabic',
     'hy': 'Armenian',
     'az': 'Azerbaijani',
@@ -94,7 +95,7 @@ var langs = {
     'sl': 'Slovenian',
     'so': 'Somali',
     'es': 'Spanish',
-    'su': 'Sudanese',
+    'su': 'Sundanese',
     'sw': 'Swahili',
     'sv': 'Swedish',
     'tg': 'Tajik',
