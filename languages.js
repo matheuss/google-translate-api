@@ -95,7 +95,7 @@ var langs = {
     'sl': 'Slovenian',
     'so': 'Somali',
     'es': 'Spanish',
-    'su': 'Sudanese',
+    'su': 'Sundanese',
     'sw': 'Swahili',
     'sv': 'Swedish',
     'tg': 'Tajik',
