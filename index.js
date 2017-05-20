@@ -59,9 +59,8 @@ function translate(text, opts) {
                     }
                 }
             ];
-        } else {
-            return [fullUrl];
         }
+        return [fullUrl];
     }).then(function (url) {
         return got(...url).then(function (res) {
             var result = {
