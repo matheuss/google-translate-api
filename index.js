@@ -11,7 +11,7 @@ function translate(text, opts) {
 
     var e;
     [opts.from, opts.to].forEach(function (lang) {
-        if (lang && !languages.isSupported(lang)) {
+        if (lang && !translate.languages.isSupported(lang)) {
             e = new Error();
             e.code = 400;
             e.message = 'The language \'' + lang + '\' is not supported';
@@ -26,8 +26,8 @@ function translate(text, opts) {
     opts.from = opts.from || 'auto';
     opts.to = opts.to || 'en';
 
-    opts.from = languages.getCode(opts.from);
-    opts.to = languages.getCode(opts.to);
+    opts.from = translate.languages.getCode(opts.from);
+    opts.to = translate.languages.getCode(opts.to);
 
     return token.get(text).then(function (token) {
         var url = 'https://translate.google.com/translate_a/single';
@@ -112,6 +112,5 @@ function translate(text, opts) {
         });
     });
 }
-
+translate.languages = languages;
 module.exports = translate;
-module.exports.languages = languages;
