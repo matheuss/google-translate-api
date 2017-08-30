@@ -58,7 +58,7 @@ test('translate some misspelled english text to dutch', async t => {
     }
 });
 
-test.todo('try to translate some text without an internet connection');
+// test.todo('try to translate some text without an internet connection');
 
 test('translate some text and get the raw output alongside', async t => {
     try {
@@ -95,6 +95,10 @@ test('get an unsupported language code by its name', t => {
 
 test('get a supported language code by code', t => {
     t.is(languages.getCode('en'), 'en');
+});
+
+test('get a supported language code by uppercase code', t => {
+    t.is(languages.getCode('EN'), 'en');
 });
 
 test('call getCode with \'undefined\'', t => {
