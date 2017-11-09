@@ -83,7 +83,7 @@ function translate(text, opts) {
 
             var body = safeEval(res.body);
             body[0].forEach(function (obj) {
-                if (obj[0] !== undefined) {
+                if (obj[0]) {
                     result.text += obj[0];
                 }
             });
@@ -95,7 +95,7 @@ function translate(text, opts) {
                 result.from.language.iso = body[8][0][0];
             }
 
-            if (body[7] !== undefined && body[7][0] !== undefined) {
+            if (body[7] && body[7][0]) {
                 var str = body[7][0];
 
                 str = str.replace(/<b><i>/g, '[');
