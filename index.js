@@ -56,7 +56,7 @@ function translate(text, opts) {
         }
         return [fullUrl];
     }).then(function (url) {
-        return got(...url).then(function (res) {
+        return got.apply(got, url).then(function (res) {
             var result = {
                 text: '',
                 from: {
