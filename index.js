@@ -46,7 +46,7 @@ function translate(text, opts) {
             q: text
         };
         data[token.name] = token.value;
-        let fullUrl = url + '?' + querystring.stringify(data);
+        var fullUrl = url + '?' + querystring.stringify(data);
         if (fullUrl.length > 2083) {
             delete data.q;
             return [
