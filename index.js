@@ -46,19 +46,15 @@ function translate(text, opts) {
             q: text
         };
         data[token.name] = token.value;
-        
         let fullUrl = url + '?' + querystring.stringify(data);
-        if(fullUrl.length > 2083) {
+        if (fullUrl.length > 2083) {
             delete data.q;
             return [
                 url + '?' + querystring.stringify(data),
-                { method: 'POST', body: { q: text }}
+                {method: 'POST', body: {q: text}}
             ];
-
-        } else {
-            return [fullUrl];
         }
-        
+        return [fullUrl];
     }).then(function (url) {
         return got(...url).then(function (res) {
             var result = {
