@@ -30,7 +30,7 @@ function translate(text, opts) {
     opts.to = languages.getCode(opts.to);
 
     return token.get(text).then(function (token) {
-        var url = 'https://translate.google.com/translate_a/single';
+        var url = (process.env.GOOGLE_TRANSLATE_API || 'https://translate.google.com') + '/translate_a/single';
         var data = {
             client: 't',
             sl: opts.from,
