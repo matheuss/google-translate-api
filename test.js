@@ -33,6 +33,16 @@ test('translate from auto to dutch', async t => {
     }
 });
 
+test('test pronunciation', async t => {
+    try {
+        const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
+
+        t.is(res.pronunciation, 'Fānyì zhě');
+    } catch (err) {
+        t.fail(err.code);
+    }
+});
+
 test('translate some english text setting the source language as portuguese', async t => {
     try {
         const res = await translate('translator', {from: 'pt', to: 'nl'});
