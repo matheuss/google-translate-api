@@ -142,3 +142,31 @@ test('translate from dutch to english using language names instead of codes', as
         t.fail(err.code);
     }
 });
+
+test('translate long text over 2083 chars using any languages', async t => {
+    try {
+        const text = `
+NASA is preparing to launch its best space telescope yet, and it will gaze at the stars through a golden mirror. It's not a single piece, but an array of 18 segments made of beryllium -- a rare metal that is both strong and light -- and coated with a microscopically thin layer of pure gold for maximum reflectivity. It spans a whopping 21 feet (6.5 meters) across.
+"A mirror this large has never before been launched into space," wrote Lee Feinberg, the Optical Telescope Element Manager for the James Webb Space Telescope at NASA, in an email interview.
+Expected to launch in 2020, the telescope is an $8.8 billion project that will offer astronomers unprecedented views of the cosmos.
+"Webb will solve mysteries of our solar system, look beyond to distant worlds around other stars, and probe the mysterious structures and origins of our universe and our place in it," said Feinberg.
+
+Keeping it cool
+The Webb is designed to be a more capable successor to the Hubble Space Telescope, launched in 1990.
+Unlike Hubble, which orbits the Earth at about 340 miles of altitude, Webb will be sent almost a million miles into space, at a specific location called "L2." It's one of five so-called Lagrange points, specific areas of stability where the gravity from the Earth and the Sun balances out in such a way that putting an object there keeps it in a fixed position relative to the two celestial bodies. The telescope will therefore hitch a ride through space without the need for engines or propulsion, while enjoying an unobstructed view.
+It's also very cold out there, which is oddly what NASA wants. James Webb will be able to see deeper into space by looking at the universe not through visible light -- like Hubble and our eyes do -- but through infrared radiation, which we normally think of as heat. That means that the mirror itself needs to be super cold, to avoid emitting any heat that could interfere with its own observations.
+"Because warm objects give off infrared light, or heat, if Webb's mirror was the same temperature as Hubble's, the faint infrared light from distant galaxies would be lost in the infrared glow of the mirror," said Feinberg.
+To protect itself from the warmth of the Sun, the mirror will sit on a 70-ft sunshield -- as long as a tennis court -- made of a special heat-resistant material. It looks like a giant kite and it will keep the mirror at a gelid -370°F, or -223°C, nearly three times colder than the coldest temperature ever recorded on Earth.
+
+Unfolding in space
+Each of the mirror's 18 segments weighs 46 pounds (20 kilos) and spans 4.3 feet (1.3 meters), forming an array that will dwarf Hubble's 7.9-ft primary mirror.
+A larger mirror means better performance. "A telescope's sensitivity, or how much detail it can see, is directly related to the size of the mirror area that collects light from the objects being observed. A larger area collects more light, just like a larger bucket collects more water in a rain shower than a small one," said Feinberg.
+But to make it fit into the rocket that will send it into space, the mirror needs to be folded, which explains why it's made of hexagons. "The hexagonal shape allows for a roughly circular, segmented mirror with high filling factor, which means the segments fit together without gaps. If the segments were circular, there would be gaps between them."
+Once in space, getting these mirrors to focus correctly on faraway galaxies will be a challenge, says Feinberg. It will take two months just to unfurl the telescope, cool it down and position all the segments correctly. "Aligning the primary mirror segments as though they are a single large mirror means each one needs to be aligned to 1/10,000th the thickness of a human hair. What's even more amazing is that the engineers and scientists working on the Webb telescope literally had to invent how to do this."
+`.trim();
+        const res = await translate(text, {from: 'english', to: 'dutch'});
+        t.truthy(res);
+    } catch (err) {
+        t.fail(err.code);
+    }
+});
