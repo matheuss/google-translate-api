@@ -41,7 +41,7 @@ function translate(text, opts) {
             oe: 'UTF-8',
             otf: 1,
             ssel: 0,
-            tsel: 0,
+            tsel: 4,
             kc: 7,
             q: text
         };

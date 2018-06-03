@@ -31,15 +31,15 @@
   },
   "homepage": "https://github.com/matheuss/google-translate-api#readme",
   "dependencies": {
-    "configstore": "^2.0.0",
+    "configstore": "^3.1.2",
     "google-translate-token": "latest",
-    "got": "^6.3.0",
+    "got": "^8.3.1",
     "safe-eval": "^0.3.0"
   },
   "devDependencies": {
     "ava": "^0.15.2",
-    "codecov": "^1.0.1",
-    "coveralls": "^2.11.11",
+    "codecov": "^3.0.2",
+    "coveralls": "^3.0.1",
     "nyc": "^7.0.0",
     "xo": "^0.16.0"
   },
