@@ -1,7 +1,6 @@
 var querystring = require('querystring');
 
 var got = require('got');
-var safeEval = require('safe-eval');
 var token = require('google-translate-token');
 
 var languages = require('./languages');
@@ -70,7 +69,7 @@ function translate(text, opts) {
                 result.raw = res.body;
             }
 
-            var body = safeEval(res.body);
+            var body = JSON.parse(res.body);
             body[0].forEach(function (obj) {
                 if (obj[0]) {
                     result.text += obj[0];

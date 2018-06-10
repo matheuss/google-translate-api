@@ -33,8 +33,7 @@
   "dependencies": {
     "configstore": "^2.0.0",
     "google-translate-token": "latest",
-    "got": "^6.3.0",
-    "safe-eval": "^0.3.0"
+    "got": "^6.3.0"
   },
   "devDependencies": {
     "ava": "^0.15.2",
