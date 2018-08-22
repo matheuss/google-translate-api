@@ -32,7 +32,7 @@
   "homepage": "https://github.com/matheuss/google-translate-api#readme",
   "dependencies": {
     "configstore": "^2.0.0",
-    "google-translate-token": "latest",
+    "google-translate-token": "github:gucong3000/google-translate-token#google.cn",
     "got": "^6.3.0",
     "safe-eval": "^0.3.0"
   },
