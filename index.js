@@ -49,7 +49,7 @@ function translate(text, opts) {
 
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url).then(function (res) {
+        return got(url, {headers: {'user-agent': 'Mozilla/5.0'}}).then(function (res) {
             var result = {
                 text: '',
                 from: {
