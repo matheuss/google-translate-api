@@ -1,4 +1,7 @@
-# google-translate-api [![Build Status](https://travis-ci.org/matheuss/google-translate-api.svg?branch=master)](https://travis-ci.org/matheuss/google-translate-api) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo) [![Coverage Status](https://coveralls.io/repos/github/matheuss/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/matheuss/google-translate-api?branch=master) [![Known Vulnerabilities](https://snyk.io/test/npm/google-translate-api/badge.svg)](https://snyk.io/test/npm/google-translate-api)
+# google-translate-api
+[![Build Status](https://travis-ci.org/vitalets/google-translate-api.svg?branch=master)](https://travis-ci.org/vitalets/google-translate-api)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+[![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
 
 A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
 
@@ -12,7 +15,7 @@ A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
 ## Install 
 
 ```
-npm install --save google-translate-api
+npm install @vitalets/google-translate-api
 ```
 
 ## Usage
@@ -20,7 +23,7 @@ npm install --save google-translate-api
 From automatic language detection to English:
 
 ``` js
-const translate = require('google-translate-api');
+const translate = require('@vitalets/google-translate-api');
 
 translate('Ik spreek Engels', {to: 'en'}).then(res => {
     console.log(res.text);
@@ -99,13 +102,19 @@ Type: `boolean` Default: `false`
 
 If `true`, the returned object will have a `raw` property with the raw response (`string`) from Google Translate.
 
+##### client
+
+Type: `string` Default: `"t"`
+
+Query parameter `client` used in API calls. Can be `t|gtx`.
+
 ### Returns an `object`:
 
 - `text` *(string)* – The translated text.
 - `from` *(object)*
   - `language` *(object)*
     - `didYouMean` *(boolean)* - `true` if the API suggest a correction in the source language
-    - `iso` *(string)* - The [code of the language](https://github.com/matheuss/google-translate-api/blob/master/languages.js) that the API has recognized in the `text`
+    - `iso` *(string)* - The [code of the language](https://github.com/vitalets/google-translate-api/blob/master/languages.js) that the API has recognized in the `text`
   - `text` *(object)*
     - `autoCorrected` *(boolean)* – `true` if the API has auto corrected the `text`
     - `value` *(string)* – The auto corrected `text` or the `text` with suggested corrections
