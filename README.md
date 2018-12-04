@@ -1,5 +1,6 @@
 # google-translate-api
 [![Build Status](https://travis-ci.org/vitalets/google-translate-api.svg?branch=master)](https://travis-ci.org/vitalets/google-translate-api)
+[![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
 
@@ -13,10 +14,10 @@ A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
 - Fast and reliable – it uses the same servers that [translate.google.com](https://translate.google.com) uses
 
 ## Why this fork
-This fork contains fixes required for current Translate API changes: 
+This fork of original [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) contains fixes required for current Translate API changes: 
 
-- Additional option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details.
-- Retrieving TKK ceed from changed `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token)) 
+- New option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details.
+- Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token)).
 
 Also I've setup [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google changes something again.
 
