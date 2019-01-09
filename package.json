@@ -34,7 +34,7 @@
     "@vitalets/google-translate-token": "^1.0.2",
     "configstore": "^2.0.0",
     "got": "^6.3.0",
-    "safe-eval": "^0.3.0"
+    "safe-eval": "^0.4.1"
   },
   "devDependencies": {
     "ava": "^0.15.2",
