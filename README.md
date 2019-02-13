@@ -13,13 +13,13 @@ A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
 - Language correction 
 - Fast and reliable – it uses the same servers that [translate.google.com](https://translate.google.com) uses
 
-## Why this fork
-This fork of original [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) contains fixes required for current Translate API changes: 
+## Why this fork?
+This fork of original [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) contains several improvements:
 
-- New option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details.
-- Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token)).
-
-Also I've setup [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google changes something again.
+- New option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details
+- Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token))
+- Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
+- Added [ddaily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
 
 ## Install 
 
