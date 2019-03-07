@@ -142,3 +142,18 @@ test('translate from dutch to english using language names instead of codes', as
         t.fail(err.code);
     }
 });
+
+test('translate via custom tld', async t => {
+    try {
+        const res = await translate('vertaler', {tld: 'cn'});
+
+        t.is(res.text, 'translator');
+        t.false(res.from.language.didYouMean);
+        t.is(res.from.language.iso, 'nl');
+        t.false(res.from.text.autoCorrected);
+        t.is(res.from.text.value, '');
+        t.false(res.from.text.didYouMean);
+    } catch (err) {
+        t.fail(err.code);
+    }
+});
