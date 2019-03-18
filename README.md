@@ -118,6 +118,12 @@ Type: `string` Default: `"t"`
 
 Query parameter `client` used in API calls. Can be `t|gtx`.
 
+##### tld
+
+Type: `string` Default: `"com"`
+
+TLD for Google translate host to be used in API calls: `https://translate.google.{tld}`.
+
 ### Returns an `object`:
 
 - `text` *(string)* – The translated text.
