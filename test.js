@@ -1,72 +1,58 @@
 import test from 'ava';
-
+import Configstore from 'configstore';
 import languages from './languages';
 import translate from './index';
 
-test('translate without any options', async t => {
-    try {
-        const res = await translate('vertaler');
+const config = new Configstore('google-translate-api');
 
-        t.is(res.text, 'translator');
-        t.false(res.from.language.didYouMean);
-        t.is(res.from.language.iso, 'nl');
-        t.false(res.from.text.autoCorrected);
-        t.is(res.from.text.value, '');
-        t.false(res.from.text.didYouMean);
-    } catch (err) {
-        t.fail(err.code);
-    }
+test.beforeEach(() => {
+    config.clear();
+});
+
+test('translate without any options', async t => {
+    const res = await translate('vertaler');
+
+    t.is(res.text, 'translator');
+    t.false(res.from.language.didYouMean);
+    t.is(res.from.language.iso, 'nl');
+    t.false(res.from.text.autoCorrected);
+    t.is(res.from.text.value, '');
+    t.false(res.from.text.didYouMean);
 });
 
 test('translate from auto to dutch', async t => {
-    try {
-        const res = await translate('translator', {from: 'auto', to: 'nl'});
+    const res = await translate('translator', {from: 'auto', to: 'nl'});
 
-        t.is(res.text, 'vertaler');
-        t.false(res.from.language.didYouMean);
-        t.is(res.from.language.iso, 'en');
-        t.false(res.from.text.autoCorrected);
-        t.is(res.from.text.value, '');
-        t.false(res.from.text.didYouMean);
-    } catch (err) {
-        t.fail(err.code);
-    }
+    t.is(res.text, 'vertaler');
+    t.false(res.from.language.didYouMean);
+    t.is(res.from.language.iso, 'en');
+    t.false(res.from.text.autoCorrected);
+    t.is(res.from.text.value, '');
+    t.false(res.from.text.didYouMean);
 });
 
 test('translate some english text setting the source language as portuguese', async t => {
-    try {
-        const res = await translate('translator', {from: 'pt', to: 'nl'});
+    const res = await translate('translator', {from: 'pt', to: 'nl'});
 
-        t.true(res.from.language.didYouMean);
-        t.is(res.from.language.iso, 'en');
-    } catch (err) {
-        t.fail(err.code);
-    }
+    t.true(res.from.language.didYouMean);
+    t.is(res.from.language.iso, 'en');
 });
 
 test('translate some misspelled english text to dutch', async t => {
-    try {
-        const res = await translate('I spea Dutch', {from: 'en', to: 'nl'});
+    const res = await translate('I spea Dutch', {from: 'en', to: 'nl'});
 
-        if (res.from.text.autoCorrected || res.from.text.didYouMean) {
-            t.is(res.from.text.value, 'I [speak] Dutch');
-        } else {
-            t.fail();
-        }
-    } catch (err) {
-        t.fail(err.code);
+    if (res.from.text.autoCorrected || res.from.text.didYouMean) {
+        t.is(res.from.text.value, 'I [speak] Dutch');
+    } else {
+        t.fail();
     }
 });
 
 test.todo('try to translate some text without an internet connection');
 
 test('translate some text and get the raw output alongside', async t => {
-    try {
-        const res = await translate('vertaler', {raw: true});
-        t.truthy(res.raw);
-    } catch (err) {
-        t.fail(err.code);
-    }
+    const res = await translate('vertaler', {raw: true});
+    t.truthy(res.raw);
 });
 
 test('test a supported language – by code', t => {
@@ -134,11 +120,18 @@ test('try to translate to an unsupported language', async t => {
 });
 
 test('translate from dutch to english using language names instead of codes', async t => {
-    try {
-        const res = await translate('iets', {from: 'dutch', to: 'english'});
-        t.is(res.from.language.iso, 'nl');
-        t.is(res.text, 'something');
-    } catch (err) {
-        t.fail(err.code);
-    }
+    const res = await translate('iets', {from: 'dutch', to: 'english'});
+    t.is(res.from.language.iso, 'nl');
+    t.is(res.text, 'something');
+});
+
+test('translate via custom tld', async t => {
+    const res = await translate('vertaler', {tld: 'cn'});
+
+    t.is(res.text, 'translator');
+    t.false(res.from.language.didYouMean);
+    t.is(res.from.language.iso, 'nl');
+    t.false(res.from.text.autoCorrected);
+    t.is(res.from.text.value, '');
+    t.false(res.from.text.didYouMean);
 });

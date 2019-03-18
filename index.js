@@ -24,12 +24,13 @@ function translate(text, opts) {
 
     opts.from = opts.from || 'auto';
     opts.to = opts.to || 'en';
+    opts.tld = opts.tld || 'com';
 
     opts.from = languages.getCode(opts.from);
     opts.to = languages.getCode(opts.to);
 
-    return token.get(text).then(function (token) {
-        var url = 'https://translate.google.com/translate_a/single';
+    return token.get(text, {tld: opts.tld}).then(function (token) {
+        var url = 'https://translate.google.' + opts.tld + '/translate_a/single';
         var data = {
             client: opts.client || 't',
             sl: opts.from,
