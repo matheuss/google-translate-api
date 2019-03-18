@@ -27,9 +27,10 @@ function translate(text, opts) {
 
     opts.from = languages.getCode(opts.from);
     opts.to = languages.getCode(opts.to);
+    opts.tld = opts.tls || 'com';
 
-    return token.get(text).then(function (token) {
-        var url = 'https://translate.google.com/translate_a/single';
+    return token.get(opts, text).then(function (token) {
+        var url = 'https://translate.google.' + opts.tld + '/translate_a/single';
         var data = {
             client: opts.client || 't',
             sl: opts.from,
