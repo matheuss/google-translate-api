@@ -44,20 +44,6 @@ test('translate some misspelled english text to dutch', async t => {
     }
 });
 
-test('try to translate some text without an internet connection', async t => {
-    try {
-        const res = await translate('vertaler');
-        t.is(res.text, 'translator');
-        t.false(res.from.language.didYouMean);
-        t.is(res.from.language.iso, 'nl');
-        t.false(res.from.text.autoCorrected);
-        t.is(res.from.text.value, '');
-        t.false(res.from.text.didYouMean);
-    } catch (err) {	
-        t.fail(err.code);	// this will always fail and error out
-    }
-});
-
 test('translate some text and get the raw output alongside', async t => {
     const res = await translate('vertaler', {raw: true});
     t.truthy(res.raw);
