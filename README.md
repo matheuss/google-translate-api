@@ -20,7 +20,7 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token))
 - Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
 - Added [ddaily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
-- Added support for custom `tld` (See [#7](https://github.com/vitalets/google-translate-api/pull/7))
+- Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
 
 ## Install 
 
