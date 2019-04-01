@@ -48,10 +48,9 @@ test('translate some misspelled english text to dutch', async t => {
     }
 });
 
-test.todo('try to translate some text without an internet connection');
-
 test('translate some text and get the raw output alongside', async t => {
     const res = await translate('vertaler', {raw: true});
+
     t.truthy(res.raw);
 });
 
@@ -121,6 +120,7 @@ test('try to translate to an unsupported language', async t => {
 
 test('translate from dutch to english using language names instead of codes', async t => {
     const res = await translate('iets', {from: 'dutch', to: 'english'});
+
     t.is(res.from.language.iso, 'nl');
     t.is(res.text, 'something');
 });
