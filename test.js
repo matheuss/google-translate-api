@@ -31,6 +31,12 @@ test('translate from auto to dutch', async t => {
     t.false(res.from.text.didYouMean);
 });
 
+test('test pronunciation', async t => {
+    const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
+
+    t.is(res.pronunciation, 'Fānyì zhě');
+});
+
 test('translate some english text setting the source language as portuguese', async t => {
     const res = await translate('translator', {from: 'pt', to: 'nl'});
 
