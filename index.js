@@ -7,7 +7,7 @@ var languages = require('./languages');
 
 function translate(text, opts, gotopts) {
     opts = opts || {};
-
+    gotopts = gotopts || {};
     var e;
     [opts.from, opts.to].forEach(function (lang) {
         if (lang && !languages.isSupported(lang)) {
