@@ -95,6 +95,13 @@ The text to be translated
 
 Type: `object`
 
+
+### gotopts
+
+Type: `object`
+
+The got options: https://github.com/sindresorhus/got#options
+
 ##### from
 
 Type: `string` Default: `auto`
