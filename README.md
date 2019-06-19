@@ -80,7 +80,21 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
     console.error(err);
 });
 ```
-
+## Usage with Proxy
+``` js
+const tunnel = require('tunnel');
+translate('Ik spreek Engels', {to: 'en'}, {
+    agent: tunnel.httpsOverHttp({
+    proxy: { 
+      host: 'whateverhost',
+      proxyAuth: "user:pass",
+      port: '8080',
+      headers: {
+        'User-Agent': 'Node'
+      }
+    }
+  })})
+```
 ## API
 
 ### translate(text, options)
