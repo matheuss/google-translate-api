@@ -94,7 +94,12 @@ translate('Ik spreek Engels', {to: 'en'}, {
         'User-Agent': 'Node'
       }
     }
-  })})
+  }
+)}).then(res => {
+    // do something
+}).catch(err => {
+    console.error(err);
+});
 ```
 ## API
 
