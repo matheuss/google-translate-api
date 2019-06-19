@@ -81,6 +81,7 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 });
 ```
 ## Usage with Proxy
+You can use the tunnel package with the agent option to work with proxies:
 ``` js
 const tunnel = require('tunnel');
 translate('Ik spreek Engels', {to: 'en'}, {
