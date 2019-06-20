@@ -19,7 +19,7 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - New option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details
 - Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token))
 - Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
-- Added [ddaily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
+- Added [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
 - Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
 - Added support for outputting pronunciation (See [#17](https://github.com/vitalets/google-translate-api/pull/17))
 
