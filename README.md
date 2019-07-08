@@ -4,7 +4,7 @@
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
 
-A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
+A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign: for Node.js.
 
 ## Features 
 
@@ -80,6 +80,9 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
     console.error(err);
 });
 ```
+
+## Does it work from web page context?
+No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains. 
 
 ## API
 
