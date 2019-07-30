@@ -21,7 +21,8 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
 - Added [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
 - Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
-- Added support for outputting pronunciation (See [#17](https://github.com/vitalets/google-translate-api/pull/17))
+- Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
+- Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
 
 ## Install 
 
@@ -33,7 +34,7 @@ npm install @vitalets/google-translate-api
 
 From automatic language detection to English:
 
-``` js
+```js
 const translate = require('@vitalets/google-translate-api');
 
 translate('Ik spreek Engels', {to: 'en'}).then(res => {
@@ -48,7 +49,7 @@ translate('Ik spreek Engels', {to: 'en'}).then(res => {
 
 From English to Dutch with a typo:
 
-``` js
+```js
 translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
     console.log(res.text);
     //=> Ik spreek Nederlands!
@@ -65,7 +66,7 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 
 Sometimes, the API will not use the auto corrected text in the translation:
 
-``` js
+```js
 translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
     console.log(res);
     console.log(res.text);
@@ -81,12 +82,35 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 });
 ```
 
+## Too many requests
+Google Translate has request limits. If too many requests are made, you can either end up with a 429 or a 503 error.
+You can use proxy to bypass them:
+```js
+const tunnel = require('tunnel');
+translate('Ik spreek Engels', {to: 'en'}, {
+    agent: tunnel.httpsOverHttp({
+    proxy: { 
+      host: 'whateverhost',
+      proxyAuth: 'user:pass',
+      port: '8080',
+      headers: {
+        'User-Agent': 'Node'
+      }
+    }
+  }
+)}).then(res => {
+    // do something
+}).catch(err => {
+    console.error(err);
+});
+```
+
 ## Does it work from web page context?
-No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains. 
+No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains.
 
 ## API
 
-### translate(text, options)
+### translate(text, [options], [gotOptions])
 
 #### text
 
@@ -99,37 +123,36 @@ The text to be translated
 Type: `object`
 
 ##### from
-
 Type: `string` Default: `auto`
 
 The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js)
 
 ##### to
-
 Type: `string` Default: `en`
 
 The language in which the text should be translated. Must be one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
 
 ##### raw
-
 Type: `boolean` Default: `false`
 
 If `true`, the returned object will have a `raw` property with the raw response (`string`) from Google Translate.
 
 ##### client
-
 Type: `string` Default: `"t"`
 
 Query parameter `client` used in API calls. Can be `t|gtx`.
 
 ##### tld
-
 Type: `string` Default: `"com"`
 
 TLD for Google translate host to be used in API calls: `https://translate.google.{tld}`.
 
-### Returns an `object`:
+#### gotOptions
+Type: `object`
 
+The got options: https://github.com/sindresorhus/got#options
+
+### Returns an `object`:
 - `text` *(string)* – The translated text.
 - `from` *(object)*
   - `language` *(object)*
@@ -143,7 +166,7 @@ TLD for Google translate host to be used in API calls: `https://translate.google
 
 Note that `res.from.text` will only be returned if `from.text.autoCorrected` or `from.text.didYouMean` equals to `true`. In this case, it will have the corrections delimited with brackets (`[ ]`):
 
-``` js
+```js
 translate('I spea Dutch').then(res => {
     console.log(res.from.text.value);
     //=> I [speak] Dutch
@@ -159,4 +182,4 @@ Otherwise, it will be an empty `string` (`''`).
 
 ## License
 
-MIT © [Matheus Fernandes](http://matheus.top)
+MIT © [Matheus Fernandes](http://matheus.top) forked by [Vitaliy Potapov](https://github.com/vitalets).
