@@ -37,7 +37,7 @@
   "dependencies": {
     "@vitalets/google-translate-token": "^1.1.0",
     "configstore": "^2.0.0",
-    "got": "^6.3.0"
+    "got": "^9.6.0"
   },
   "devDependencies": {
     "ava": "^0.15.2",

@@ -141,3 +141,21 @@ test('translate via custom tld', async t => {
     t.is(res.from.text.value, '');
     t.false(res.from.text.didYouMean);
 });
+
+test('pass got options', async t => {
+    let a = 0;
+    const gotopts = {
+        hooks: {
+            afterResponse: [
+                response => {
+                    a++;
+                    return response;
+                }
+            ]
+        }
+    };
+    const res = await translate('vertaler', {}, gotopts);
+
+    t.is(res.text, 'translator');
+    t.is(a, 1);
+});
