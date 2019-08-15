@@ -21,12 +21,9 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
 - Added [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
 - Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
-<<<<<<< HEAD
 - Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
 - Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
-=======
 - Added support for language extensions from outside of the API (See [#18](https://github.com/vitalets/google-translate-api/pull/18))
->>>>>>> Update README.md
 
 ## Install 
 
@@ -86,7 +83,6 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 });
 ```
 
-<<<<<<< HEAD
 ## Too many requests
 Google Translate has request limits. If too many requests are made, you can either end up with a 429 or a 503 error.
 You can use proxy to bypass them:
@@ -120,7 +116,6 @@ Gta = require('google-translate-api');
 Gta.languages['sr-Latn'] = 'Serbian Latin';
 Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
 ```
->>>>>>> Update README.md
 
 ## API
 
