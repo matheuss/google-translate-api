@@ -106,9 +106,6 @@ translate('Ik spreek Engels', {to: 'en'}, {
 });
 ```
 
-## Does it work from web page context?
-No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains.
-=======
 You can also add languages in the code and use them in the translation:
 
 ``` js
@@ -116,6 +113,9 @@ Gta = require('google-translate-api');
 Gta.languages['sr-Latn'] = 'Serbian Latin';
 Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
 ```
+
+## Does it work from web page context?
+No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains.
 
 ## API
 
