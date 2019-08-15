@@ -83,6 +83,14 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 });
 ```
 
+You can also add languages in the code and use them in the translation:
+
+``` js
+Gta = require('google-translate-api');
+Gta.languages['sr-Latn'] = 'Serbian Latin';
+Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
+```
+
 ## Too many requests
 Google Translate has request limits. If too many requests are made, you can either end up with a 429 or a 503 error.
 You can use proxy to bypass them:
@@ -104,14 +112,6 @@ translate('Ik spreek Engels', {to: 'en'}, {
 }).catch(err => {
     console.error(err);
 });
-```
-
-You can also add languages in the code and use them in the translation:
-
-``` js
-Gta = require('google-translate-api');
-Gta.languages['sr-Latn'] = 'Serbian Latin';
-Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
 ```
 
 ## Does it work from web page context?
