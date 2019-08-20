@@ -11,6 +11,12 @@
     "release-patch": "VER=patch npm run release",
     "release-minor": "VER=minor npm run release"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "xo",
+      "pre-push": "npm test"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/vitalets/google-translate-api.git"
@@ -43,6 +49,7 @@
     "ava": "^0.15.2",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.11",
+    "husky": "^3.0.4",
     "nyc": "^7.0.0",
     "xo": "^0.16.0"
   },
