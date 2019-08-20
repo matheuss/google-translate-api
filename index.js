@@ -10,7 +10,7 @@ function translate(text, opts, gotopts) {
     gotopts = gotopts || {};
     var e;
     [opts.from, opts.to].forEach(function (lang) {
-        if (lang && !translate.languages.isSupported(lang)) {
+        if (lang && !languages.isSupported(lang)) {
             e = new Error();
             e.code = 400;
             e.message = 'The language \'' + lang + '\' is not supported';
@@ -26,8 +26,8 @@ function translate(text, opts, gotopts) {
     opts.to = opts.to || 'en';
     opts.tld = opts.tld || 'com';
 
-    opts.from = translate.languages.getCode(opts.from);
-    opts.to = translate.languages.getCode(opts.to);
+    opts.from = languages.getCode(opts.from);
+    opts.to = languages.getCode(opts.to);
 
     return token.get(text, {tld: opts.tld}).then(function (token) {
         var url = 'https://translate.google.' + opts.tld + '/translate_a/single';
@@ -117,4 +117,4 @@ function translate(text, opts, gotopts) {
 }
 
 module.exports = translate;
-translate.languages = languages;
+module.exports.languages = languages;

@@ -86,9 +86,10 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 You can also add languages in the code and use them in the translation:
 
 ``` js
-Gta = require('google-translate-api');
-Gta.languages['sr-Latn'] = 'Serbian Latin';
-Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
+translate = require('google-translate-api');
+translate.languages['sr-Latn'] = 'Serbian Latin';
+
+translate('translator', {to: 'sr-Latn'}).then(res => ...);
 ```
 
 ## Too many requests
