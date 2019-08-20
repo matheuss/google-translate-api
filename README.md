@@ -135,12 +135,12 @@ Type: `object`
 ##### from
 Type: `string` Default: `auto`
 
-The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js)
+The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/vitalets/google-translate-api/blob/master/languages.js)
 
 ##### to
 Type: `string` Default: `en`
 
-The language in which the text should be translated. Must be one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
+The language in which the text should be translated. Must be one of the codes/names (case sensitive!) contained in [languages.js](https://github.com/vitalets/google-translate-api/blob/master/languages.js).
 
 ##### raw
 Type: `boolean` Default: `false`
@@ -192,4 +192,4 @@ Otherwise, it will be an empty `string` (`''`).
 
 ## License
 
-MIT © [Matheus Fernandes](http://matheus.top) forked by [Vitaliy Potapov](https://github.com/vitalets).
+MIT © [Matheus Fernandes](http://matheus.top), forked and maintained by [Vitaliy Potapov](https://github.com/vitalets).
