@@ -23,6 +23,7 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
 - Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
 - Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
+- Added support for language extensions from outside of the API (See [#18](https://github.com/vitalets/google-translate-api/pull/18))
 
 ## Install 
 
@@ -80,6 +81,14 @@ translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
 }).catch(err => {
     console.error(err);
 });
+```
+
+You can also add languages in the code and use them in the translation:
+
+``` js
+Gta = require('google-translate-api');
+Gta.languages['sr-Latn'] = 'Serbian Latin';
+Gta.languages['sr-Cyrl'] = 'Serbian Cyrillic';
 ```
 
 ## Too many requests
