@@ -92,9 +92,9 @@ translate.languages['sr-Latn'] = 'Serbian Latin';
 translate('translator', {to: 'sr-Latn'}).then(res => ...);
 ```
 
-## Too many requests
+## Proxy
 Google Translate has request limits. If too many requests are made, you can either end up with a 429 or a 503 error.
-You can use proxy to bypass them:
+You can use **proxy** to bypass them:
 ```js
 const tunnel = require('tunnel');
 translate('Ik spreek Engels', {to: 'en'}, {
