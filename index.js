@@ -71,7 +71,7 @@ function translate(text, opts) {
             }
 
             var body = safeEval(res.body);
-            body[0].forEach(function (obj) {
+            body[0] && body[0].forEach(function (obj) {
                 if (obj[0]) {
                     result.text += obj[0];
                 }

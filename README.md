@@ -22,7 +22,7 @@ From automatic language detection to English:
 ``` js
 const translate = require('google-translate-api');
 
-translate('Ik spreek Engels', {to: 'en'}).then(res => {
+translate('Ik spreek Engels', {to: 'en',client: 'webapp' }).then(res => {
     console.log(res.text);
     //=> I speak English
     console.log(res.from.language.iso);
