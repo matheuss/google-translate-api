@@ -1,6 +1,6 @@
 {
-  "name": "google-translate-api",
-  "version": "2.4.0",
+  "name": "google-translate-free",
+  "version": "2.4.3",
   "description": "A free and unlimited API for Google Translate",
   "main": "index.js",
   "scripts": {
