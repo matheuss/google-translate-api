@@ -1,16 +1,15 @@
 var querystring = require('querystring');
 
 var got = require('got');
-var safeEval = require('safe-eval');
-var token = require('google-translate-token');
+var token = require('@vitalets/google-translate-token');
 
 var languages = require('./languages');
 
-function translate(text, opts) {
+function translate(text, opts, gotopts) {
     opts = opts || {};
-
+    gotopts = gotopts || {};
     var e;
-    [opts.from, opts.to].forEach(function (lang) {
+    [opts['form'], opts['to']].forEach(function (lang) {
         if (lang && !languages.isSupported(lang)) {
             e = new Error();
             e.code = 400;
@@ -25,14 +24,14 @@ function translate(text, opts) {
 
     opts.from = opts.from || 'auto';
     opts.to = opts.to || 'en';
+    opts.tld = opts.tld || 'com';
 
     opts.from = languages.getCode(opts.from);
     opts.to = languages.getCode(opts.to);
-
-    return token.get(text).then(function (token) {
-        var url = 'https://translate.google.com/translate_a/single';
+    return token.get(text, { tld: opts.tld }).then(function (token) {
+        var url = 'https://translate.google.' + opts.tld + '/translate_a/single';
         var data = {
-            client: 't',
+            client: opts.client || 't',
             sl: opts.from,
             tl: opts.to,
             hl: opts.to,
@@ -49,9 +48,10 @@ function translate(text, opts) {
 
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url).then(function (res) {
+        return got(url, gotopts).then(function (res) {
             var result = {
                 text: '',
+                pronunciation: '',
                 from: {
                     language: {
                         didYouMean: false,
@@ -70,10 +70,13 @@ function translate(text, opts) {
                 result.raw = res.body;
             }
 
-            var body = safeEval(res.body);
-            body[0].forEach(function (obj) {
+            var body = JSON.parse(res.body);
+            body[0] && body[0].forEach(function (obj) {
                 if (obj[0]) {
                     result.text += obj[0];
+                }
+                if (obj[2]) {
+                    result.pronunciation += obj[2];
                 }
             });
 
@@ -101,14 +104,13 @@ function translate(text, opts) {
 
             return result;
         }).catch(function (err) {
-            var e;
-            e = new Error();
+            err.message += `\nUrl: ${url}`;
             if (err.statusCode !== undefined && err.statusCode !== 200) {
-                e.code = 'BAD_REQUEST';
+                err.code = 'BAD_REQUEST';
             } else {
-                e.code = 'BAD_NETWORK';
+                err.code = 'BAD_NETWORK';
             }
-            throw e;
+            throw err;
         });
     });
 }
