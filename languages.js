@@ -105,6 +105,7 @@ var langs = {
     'tr': 'Turkish',
     'uk': 'Ukrainian',
     'ur': 'Urdu',
+    'ug': 'Uyghur',
     'uz': 'Uzbek',
     'vi': 'Vietnamese',
     'cy': 'Welsh',
