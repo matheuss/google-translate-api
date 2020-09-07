@@ -32,7 +32,7 @@ declare namespace googleTranslateApi {
     raw: string
   }
 
-  export enum language {
+  export enum languages {
     'zh-CN' = 'Chinese (Simplified)',
     'zh-TW' = 'Chinese (Traditional)',
     af = 'Afrikaans',
