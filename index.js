@@ -54,7 +54,7 @@ function translate(text, opts, gotopts) {
         return data;
     }).then(function (data) {
         url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
-        gotopts.body = 'f.req=' + encodeURIComponent(`[[["MkEWBc","[[\\"${text}\\",\\"${opts.from}\\",\\"${opts.to}\\",true],[null]]",null,"generic"]]]`) + '&';
+        gotopts.body = 'f.req=' + encodeURIComponent(`[[["MkEWBc","[[\\"${text.replace('\n', '\\\\n')}\\",\\"${opts.from}\\",\\"${opts.to}\\",true],[null]]",null,"generic"]]]`) + '&';
         gotopts.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
         return got.post(url, gotopts).then(function (res) {
@@ -81,13 +81,18 @@ function translate(text, opts, gotopts) {
             try {
                 length = /^\d+/.exec(json)[0];
                 json = JSON.parse(json.slice(length.length, parseInt(length, 10) + length.length));
+                // console.log(json[0][2]);
                 json = JSON.parse(json[0][2]);
                 result.raw = json;
             } catch (e) {
                 return result;
             }
 
-            result.text = json[1][0][0][5][0][0];
+            json[1][0][0][5].forEach(function (obj) {
+                if (obj[0]) {
+                    result.text += obj[0];
+                }
+            });
             // TODO: pronunciation
 
             result.from.language.iso = json[2];
