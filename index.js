@@ -1,9 +1,17 @@
 var querystring = require('querystring');
 
 var got = require('got');
-var token = require('@vitalets/google-translate-token');
 
 var languages = require('./languages');
+
+function extract(key, res) {
+    var re = new RegExp(`"${key}":".*?"`);
+    var result = re.exec(res.body);
+    if (result !== null) {
+        return result[0].replace(`"${key}":"`, '').slice(0, -1);
+    }
+    return '';
+}
 
 function translate(text, opts, gotopts) {
     opts = opts || {};
@@ -29,6 +37,75 @@ function translate(text, opts, gotopts) {
     opts.from = languages.getCode(opts.from);
     opts.to = languages.getCode(opts.to);
 
+    var url = 'https://translate.google.' + opts.tld;
+    return got(url, gotopts).then(function (res) {
+        var data = {
+            'rpcids': 'MkEWBc',
+            'f.sid': extract('FdrFJe', res),
+            'bl': extract('cfb2h', res),
+            'hl': 'en-US',
+            'soc-app': 1,
+            'soc-platform': 1,
+            'soc-device': 1,
+            '_reqid': Math.floor(1000 + (Math.random() * 9000)),
+            'rt': 'c'
+        };
+
+        return data;
+    }).then(function (data) {
+        url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
+        gotopts.body = 'f.req=' + encodeURIComponent(`[[["MkEWBc","[[\\"${text}\\",\\"${opts.from}\\",\\"${opts.to}\\",true],[null]]",null,"generic"]]]`) + '&';
+        gotopts.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
+        return got.post(url, gotopts).then(function (res) {
+            var json = res.body.slice(6);
+            var length = '';
+
+            var result = {
+                text: '',
+                pronunciation: '',
+                from: {
+                    language: {
+                        didYouMean: false,
+                        iso: ''
+                    },
+                    text: {
+                        autoCorrected: false,
+                        value: '',
+                        didYouMean: false
+                    }
+                },
+                raw: ''
+            };
+
+            try {
+                length = /^\d+/.exec(json)[0];
+                json = JSON.parse(json.slice(length.length, parseInt(length, 10) + length.length));
+                json = JSON.parse(json[0][2]);
+                result.raw = json;
+            } catch (e) {
+                return result;
+            }
+
+            result.text = json[1][0][0][5][0][0];
+            // TODO: pronunciation
+
+            result.from.language.iso = json[2];
+            // TODO: did you mean
+
+            return result;
+        }).catch(function (err) {
+            err.message += `\nUrl: ${url}`;
+            if (err.statusCode !== undefined && err.statusCode !== 200) {
+                err.code = 'BAD_REQUEST';
+            } else {
+                err.code = 'BAD_NETWORK';
+            }
+            throw err;
+        });
+    });
+
+    /*
     return token.get(text, {tld: opts.tld}).then(function (token) {
         var url = 'https://translate.google.' + opts.tld + '/translate_a/single';
         var data = {
@@ -114,6 +191,7 @@ function translate(text, opts, gotopts) {
             throw err;
         });
     });
+    */
 }
 
 module.exports = translate;
