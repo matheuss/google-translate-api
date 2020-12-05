@@ -81,7 +81,6 @@ function translate(text, opts, gotopts) {
             try {
                 length = /^\d+/.exec(json)[0];
                 json = JSON.parse(json.slice(length.length, parseInt(length, 10) + length.length));
-                // console.log(json[0][2]);
                 json = JSON.parse(json[0][2]);
                 result.raw = json;
             } catch (e) {
@@ -93,10 +92,34 @@ function translate(text, opts, gotopts) {
                     result.text += obj[0];
                 }
             });
-            // TODO: pronunciation
+            result.pronunciation = json[1][0][0][1];
 
-            result.from.language.iso = json[2];
-            // TODO: did you mean
+            // From language
+            if (json[0][1] && json[0][1][1]) {
+                result.from.language.didYouMean = true;
+                result.from.language.iso = json[0][1][1][0];
+            } else if (json[1][3] === 'auto') {
+                result.from.language.iso = json[2];
+            } else {
+                result.from.language.iso = json[1][3];
+            }
+
+            // Did you mean & autocorrect
+            if (json[0][1] && json[0][1][0]) {
+                var str = json[0][1][0][0][1];
+
+                str = str.replace(/<b>(<i>)?/g, '[');
+                str = str.replace(/(<\/i>)?<\/b>/g, ']');
+
+                result.from.text.value = str;
+
+                console.log(json[0][1][0][2]);
+                if (json[0][1][0][2] === 1) {
+                    result.from.text.autoCorrected = true;
+                } else {
+                    result.from.text.didYouMean = true;
+                }
+            }
 
             return result;
         }).catch(function (err) {
