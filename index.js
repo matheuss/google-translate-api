@@ -113,7 +113,6 @@ function translate(text, opts, gotopts) {
 
                 result.from.text.value = str;
 
-                console.log(json[0][1][0][2]);
                 if (json[0][1][0][2] === 1) {
                     result.from.text.autoCorrected = true;
                 } else {
