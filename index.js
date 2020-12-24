@@ -87,15 +87,20 @@ function translate(text, opts, gotopts) {
                 return result;
             }
 
-            json[1][0][0][5].forEach(function (obj) {
-                if (obj[0]) {
-                    result.text += obj[0];
-                }
-            });
+            if (json[1][0][0][5] === undefined) {
+                // translation not found, could be a hyperlink?
+                result.text = json[1][0][0][0];
+            } else {
+                json[1][0][0][5].forEach(function (obj) {
+                    if (obj[0]) {
+                        result.text += obj[0];
+                    }
+                });
+            }
             result.pronunciation = json[1][0][0][1];
 
             // From language
-            if (json[0][1] && json[0][1][1]) {
+            if (json[0] && json[0][1] && json[0][1][1]) {
                 result.from.language.didYouMean = true;
                 result.from.language.iso = json[0][1][1][0];
             } else if (json[1][3] === 'auto') {
@@ -105,7 +110,7 @@ function translate(text, opts, gotopts) {
             }
 
             // Did you mean & autocorrect
-            if (json[0][1] && json[0][1][0]) {
+            if (json[0] && json[0][1] && json[0][1][0]) {
                 var str = json[0][1][0][0][1];
 
                 str = str.replace(/<b>(<i>)?/g, '[');
