@@ -1,7 +1,7 @@
-import test from 'ava';
-import Configstore from 'configstore';
-import languages from './languages';
-import translate from './index';
+var test = require('ava');
+var Configstore = require('configstore');
+var languages = require('./languages.js');
+var translate = require('./index.js');
 
 const config = new Configstore('google-translate-api');
 
@@ -27,18 +27,18 @@ test('translate from auto to dutch', async t => {
     t.false(res.from.language.didYouMean);
     t.is(res.from.language.iso, 'en');
     t.false(res.from.text.autoCorrected);
-    t.is(res.from.text.value, '[translate]');
-    t.true(res.from.text.didYouMean);
+    t.is(res.from.text.value, '');
+    t.false(res.from.text.didYouMean);
 });
 
 test('test pronunciation', async t => {
     const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
 
-    t.is(res.pronunciation, 'Fānyì zhě');
+    t.is(res.pronunciation, 'Yì zhě');
 });
 
 test('translate some english text setting the source language as portuguese', async t => {
-    const res = await translate('translator', {from: 'pt', to: 'nl'});
+    const res = await translate('happy', {from: 'pt', to: 'nl'});
 
     t.true(res.from.language.didYouMean);
     t.is(res.from.language.iso, 'en');
@@ -165,7 +165,7 @@ test('pass got options', async t => {
     const res = await translate('vertaler', {}, gotopts);
 
     t.is(res.text, 'translator');
-    t.is(a, 1);
+    t.is(a, 2);
 });
 
 test('test get zh code', t => {

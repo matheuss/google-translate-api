@@ -41,19 +41,21 @@
   },
   "homepage": "https://github.com/vitalets/google-translate-api#readme",
   "dependencies": {
-    "@vitalets/google-translate-token": "^1.2.0",
     "configstore": "^5.0.1",
     "got": "^9.6.0"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
-    "codecov": "^1.0.1",
+    "ava": "^3.15.0",
+    "codecov": "^3.8.1",
     "coveralls": "^2.11.11",
     "husky": "^3.0.4",
-    "nyc": "^7.0.0",
+    "nyc": "^15.1.0",
     "xo": "^0.16.0"
   },
   "xo": {
-    "space": 4
+    "space": 4,
+    "parserOptions": {
+      "ecmaScript": 7
+    }
   }
 }
