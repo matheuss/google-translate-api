@@ -4,7 +4,7 @@
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
 
-A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign: for Node.js.
+A **free** and **unlimited** API for Google Translate :dollar: :no_entry_sign: for Node.js.
 
 ## Features 
 
@@ -24,7 +24,8 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
 - Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
 - Added support for language extensions from outside of the API (See [#18](https://github.com/vitalets/google-translate-api/pull/18))
-- Migrated to Google's latest batch-style RPC API (See [#60](https://github.com/vitalets/google-translate-api/pull/60))
+- Added TypeScript definitions (See [#50](https://github.com/vitalets/google-translate-api/pull/50), thanks to @olavoparno)
+- Migrated to Google's latest batch-style RPC API (See [#60](https://github.com/vitalets/google-translate-api/pull/60), thanks to @vkedwardli)
 
 ## Install 
 
