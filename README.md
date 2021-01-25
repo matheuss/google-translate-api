@@ -23,9 +23,9 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
 - Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
 - Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
-- Added support for language extensions from outside of the API (See [#18](https://github.com/vitalets/google-translate-api/pull/18))
-- Added TypeScript definitions (See [#50](https://github.com/vitalets/google-translate-api/pull/50), thanks to @olavoparno)
-- Migrated to Google's latest batch-style RPC API (See [#60](https://github.com/vitalets/google-translate-api/pull/60), thanks to @vkedwardli)
+- Added support for language extensions from outside of the API (see [#18](https://github.com/vitalets/google-translate-api/pull/18))
+- Added TypeScript definitions (see [#50](https://github.com/vitalets/google-translate-api/pull/50), thanks to [@olavoparno](https://github.com/olavoparno))
+- Migrated to Google's latest batch-style RPC API (see [#60](https://github.com/vitalets/google-translate-api/pull/60), thanks to [@vkedwardli](https://github.com/vkedwardli))
 
 ## Install 
 
