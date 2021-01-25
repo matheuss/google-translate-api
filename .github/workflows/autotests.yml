@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [12, 14]
 
     steps:
     - uses: actions/checkout@v1
@@ -21,5 +21,13 @@ jobs:
       run: |
         npm ci
         npm test
-      env:
-        CI: true
+
+    - name: Generate lcov report
+      if: matrix.node-version == 14
+      run: npx nyc report --reporter=lcov
+
+    - name: Run coveralls
+      uses: coverallsapp/github-action@master
+      if: matrix.node-version == 14
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

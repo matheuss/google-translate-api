@@ -1,5 +1,5 @@
 # google-translate-api
-[![Build Status](https://travis-ci.org/vitalets/google-translate-api.svg?branch=master)](https://travis-ci.org/vitalets/google-translate-api)
+[![Actions Status](https://github.com/vitalets/google-translate-api.svg/workflows/autotests/badge.svg)](https://github.com/vitalets/google-translate-api.svg/actions)
 [![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
