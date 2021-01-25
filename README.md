@@ -188,10 +188,6 @@ translate('I spea Dutch').then(res => {
 ```
 Otherwise, it will be an empty `string` (`''`).
 
-## Related
-
-- [`vertaler`](https://github.com/matheuss/vertaler) – CLI for this module
-
 ## License
 
 MIT © [Matheus Fernandes](http://matheus.top), forked and maintained by [Vitaliy Potapov](https://github.com/vitalets).
