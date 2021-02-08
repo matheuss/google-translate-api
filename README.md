@@ -50,6 +50,9 @@ translate('Ik spreek Engels', {to: 'en'}).then(res => {
 });
 ```
 
+> Please note that maximum text length for single translation call is **5000** characters. 
+> In case of longer text you should split it on chunks, see [#20](https://github.com/vitalets/google-translate-api/issues/20).
+
 From English to Dutch with a typo:
 
 ```js
