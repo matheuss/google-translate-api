@@ -87,8 +87,8 @@ function translate(text, opts, gotopts) {
                 return result;
             }
 
-            if (json[1][0][0][5] === undefined) {
-                // translation not found, could be a hyperlink?
+            if (json[1][0][0][5] === undefined || json[1][0][0][5] === null) {
+                // translation not found, could be a hyperlink or gender-specific translation?
                 result.text = json[1][0][0][0];
             } else {
                 json[1][0][0][5].forEach(function (obj) {
