@@ -34,7 +34,8 @@ test('translate from auto to dutch', async t => {
 test('test pronunciation', async t => {
     const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
 
-    t.is(res.pronunciation, 'Yì zhě');
+    // here can be 2 variants: 'Yì zhě', 'Fānyì'
+    t.regex(res.pronunciation, /^(Yì zhě)|(Fānyì)$/);
 });
 
 test('translate some english text setting the source language as portuguese', async t => {
