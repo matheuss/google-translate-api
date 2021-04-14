@@ -91,11 +91,15 @@ function translate(text, opts, gotopts) {
                 // translation not found, could be a hyperlink or gender-specific translation?
                 result.text = json[1][0][0][0];
             } else {
-                json[1][0][0][5].forEach(function (obj) {
-                    if (obj[0]) {
-                        result.text += obj[0];
-                    }
-                });
+                result.text = json[1][0][0][5]
+                    .map(function (obj) {
+                        return obj[0];
+                    })
+                    .filter(Boolean)
+                    // Google api seems to split text per sentences by <dot><space>
+                    // So we join text back with spaces.
+                    // See: https://github.com/vitalets/google-translate-api/issues/73
+                    .join(' ');
             }
             result.pronunciation = json[1][0][0][1];
 

@@ -31,6 +31,15 @@ test('translate from auto to dutch', async t => {
     t.true(res.from.text.didYouMean);
 });
 
+test('translate several sentences with spaces (#73)', async t => {
+    const res = await translate(
+        'translator, translator. translator! translator? translator,translator.translator!translator?',
+        {from: 'auto', to: 'nl'}
+    );
+
+    t.is(res.text, 'vertaler, vertaler. vertaler! vertaler? Vertaler, vertaler.translator! Vertaler?');
+});
+
 test('test pronunciation', async t => {
     const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
 
