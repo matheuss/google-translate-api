@@ -22,8 +22,8 @@ var langs = {
     'ca': 'Catalan',
     'ceb': 'Cebuano',
     'ny': 'Chichewa',
-    'zh-cn': 'Chinese Simplified',
-    'zh-tw': 'Chinese Traditional',
+    'zh-CN': 'Chinese (Simplified)',
+    'zh-TW': 'Chinese (Traditional)',
     'co': 'Corsican',
     'hr': 'Croatian',
     'cs': 'Czech',
@@ -44,6 +44,7 @@ var langs = {
     'ht': 'Haitian Creole',
     'ha': 'Hausa',
     'haw': 'Hawaiian',
+    'he': 'Hebrew',
     'iw': 'Hebrew',
     'hi': 'Hindi',
     'hmn': 'Hmong',
@@ -81,7 +82,7 @@ var langs = {
     'fa': 'Persian',
     'pl': 'Polish',
     'pt': 'Portuguese',
-    'ma': 'Punjabi',
+    'pa': 'Punjabi',
     'ro': 'Romanian',
     'ru': 'Russian',
     'sm': 'Samoan',
@@ -115,14 +116,13 @@ var langs = {
 };
 /**
  * Returns the ISO 639-1 code of the desiredLang – if it is supported by Google Translate
- * @param {string} desiredLang – the name or the code of the desired language
+ * @param {string} desiredLang – the name or the code(case sensitive) of the desired language
  * @returns {string|boolean} The ISO 639-1 code of the language or false if the language is not supported
  */
 function getCode(desiredLang) {
     if (!desiredLang) {
         return false;
     }
-    desiredLang = desiredLang.toLowerCase();
 
     if (langs[desiredLang]) {
         return desiredLang;
@@ -133,7 +133,7 @@ function getCode(desiredLang) {
             return false;
         }
 
-        return langs[key].toLowerCase() === desiredLang;
+        return langs[key].toLowerCase() === desiredLang.toLowerCase();
     });
 
     return keys[0] || false;

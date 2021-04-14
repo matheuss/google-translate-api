@@ -1,0 +1,41 @@
+name: autotests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12, 14]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: install deps and run tests
+      run: |
+        npm ci
+        npm test
+
+    - name: Generate lcov report
+      if: matrix.node-version == 14
+      run: npx nyc report --reporter=lcov
+
+    - name: Run coveralls
+      uses: coverallsapp/github-action@master
+      if: matrix.node-version == 14
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
