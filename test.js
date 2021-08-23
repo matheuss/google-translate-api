@@ -27,8 +27,6 @@ test('translate from auto to dutch', async t => {
     t.false(res.from.language.didYouMean);
     t.is(res.from.language.iso, 'en');
     t.false(res.from.text.autoCorrected);
-    t.is(res.from.text.value, '[translate]');
-    t.true(res.from.text.didYouMean);
 });
 
 test('translate several sentences with spaces (#73)', async t => {
