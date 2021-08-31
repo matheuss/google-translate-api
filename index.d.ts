@@ -9,6 +9,7 @@ declare namespace googleTranslateApi {
   export interface IOptions {
     from?: string;
     to?: string;
+    tld?: "com" | "cn";
   }
 
   export interface ITranslateLanguage {
