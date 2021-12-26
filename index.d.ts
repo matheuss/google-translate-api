@@ -1,14 +1,18 @@
+import got from 'got';
+
 export = googleTranslateApi;
 
 declare function googleTranslateApi(
   query: string,
-  opts?: googleTranslateApi.IOptions
+  opts?: googleTranslateApi.IOptions,
+  gotopts?: got.GotOptions<any>,
 ): Promise<googleTranslateApi.ITranslateResponse>;
 
 declare namespace googleTranslateApi {
   export interface IOptions {
     from?: string;
     to?: string;
+    tld?: string;
   }
 
   export interface ITranslateLanguage {
