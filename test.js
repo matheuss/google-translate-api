@@ -23,7 +23,7 @@ test('translate without any options', async t => {
 test('translate from auto to dutch', async t => {
     const res = await translate('translator', {from: 'en', to: 'nl'});
     // temp log to debug tests on github actions
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
     t.is(res.text, 'vertaler');
     t.false(res.from.language.didYouMean);
     t.is(res.from.language.iso, 'en');
