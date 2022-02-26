@@ -21,7 +21,7 @@ test('translate without any options', async t => {
 });
 
 test('translate from auto to dutch', async t => {
-    const res = await translate('translator', {from: 'auto', to: 'nl'});
+    const res = await translate('translator', {from: 'en', to: 'nl'});
     // temp log to debug tests on github actions
     console.log(res);
     t.is(res.text, 'vertaler');
