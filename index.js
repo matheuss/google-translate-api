@@ -40,7 +40,9 @@ function translate(text, opts, gotopts) {
     var url = 'https://translate.google.' + opts.tld;
     return got(url, gotopts).then(function (res) {
         var data = {
-            'rpcids': 'MkEWBc',
+            // constant rpcids seems to have to values: MkEWBc and exi25c
+            'rpcids': 'exi25c',
+            // 'rpcids': 'MkEWBc',
             'f.sid': extract('FdrFJe', res),
             'bl': extract('cfb2h', res),
             'hl': 'en-US',
