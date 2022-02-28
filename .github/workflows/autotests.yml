@@ -25,10 +25,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: install deps and run tests
-      run: |
-        npm ci
-        npm test
+    - name: install deps
+      run: npm ci
+
+    - name: run tests
+      run: npm test
 
     - name: Generate lcov report
       if: matrix.node-version == 14
