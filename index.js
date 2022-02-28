@@ -38,11 +38,16 @@ function translate(text, opts, gotopts) {
     opts.to = languages.getCode(opts.to);
 
     var url = 'https://translate.google.' + opts.tld;
+
+    // according to translate.google.com constant rpcids seems to have different values with different POST body format.
+    // * MkEWBc - returns translation
+    // * AVdN8 - return suggest
+    // * exi25c - return some technical info
+    var rpcids = 'MkEWBc';
     return got(url, gotopts).then(function (res) {
         var data = {
-            // constant rpcids seems to have to values: MkEWBc and exi25c
-            'rpcids': 'exi25c',
-            // 'rpcids': 'MkEWBc',
+            'rpcids': rpcids,
+            'source-path': '/',
             'f.sid': extract('FdrFJe', res),
             'bl': extract('cfb2h', res),
             'hl': 'en-US',
@@ -52,11 +57,15 @@ function translate(text, opts, gotopts) {
             '_reqid': Math.floor(1000 + (Math.random() * 9000)),
             'rt': 'c'
         };
-
+        console.log(data)
         return data;
     }).then(function (data) {
         url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
-        gotopts.body = 'f.req=' + encodeURIComponent(JSON.stringify([[['MkEWBc', JSON.stringify([[text, opts.from, opts.to, true], [null]]), null, 'generic']]])) + '&';
+        // freq for rpcids = MkEWBc
+        var freq = [[[rpcids, JSON.stringify([[text, opts.from, opts.to, false], [null]]), null, 'generic']]];
+        // freq for rpcids = exi25c
+        // var freq = [[[rpcids, JSON.stringify([[[ opts.from, opts.to ]]]), null, 'generic']]];
+        gotopts.body = 'f.req=' + encodeURIComponent(JSON.stringify(freq)) + '&';
         gotopts.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
         return got.post(url, gotopts).then(function (res) {
