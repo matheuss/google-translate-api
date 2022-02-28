@@ -4,17 +4,15 @@
   "description": "A free and unlimited API for Google Translate",
   "main": "index.js",
   "scripts": {
+    "lint": "xo",
     "test": "nyc ava",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "release": "npm test && npm version $VER && npm publish",
-    "postrelease": "git push --follow-tags --no-verify",
-    "release-patch": "VER=patch npm run release",
-    "release-minor": "VER=minor npm run release"
+    "release": "npm run lint && npm test && np --yolo --no-release-draft"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "xo",
-      "pre-push": "npm test"
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint && npm test"
     }
   },
   "repository": {
@@ -49,6 +47,7 @@
     "codecov": "^3.8.1",
     "coveralls": "^2.11.11",
     "husky": "^3.0.4",
+    "np": "^7.6.0",
     "nyc": "^15.1.0",
     "xo": "^0.16.0"
   },
