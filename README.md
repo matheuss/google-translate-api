@@ -40,56 +40,36 @@ From automatic language detection to English:
 ```js
 const translate = require('@vitalets/google-translate-api');
 
-translate('Ik spreek Engels', {to: 'en'}).then(res => {
-    console.log(res.text);
-    //=> I speak English
-    console.log(res.from.language.iso);
-    //=> nl
-}).catch(err => {
-    console.error(err);
-});
+const res = await translate('Ik spreek Engels', {to: 'en'});
+
+console.log(res.text); //=> I speak English
+console.log(res.from.language.iso);  //=> nl
+```
+
+If server returns **Response code 403 (Forbidden)** try set option `client=gtx`:
+```js
+const res = await translate('Ik spreek Engels', { to: 'en', client: 'gtx' }).then(res => { ... });
 ```
 
 > Please note that maximum text length for single translation call is **5000** characters. 
 > In case of longer text you should split it on chunks, see [#20](https://github.com/vitalets/google-translate-api/issues/20).
 
-From English to Dutch with a typo:
+### Autocorrect
+From English to Dutch with a typo (autoCorrect):
 
 ```js
-translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
-    console.log(res.text);
-    //=> Ik spreek Nederlands!
-    console.log(res.from.text.autoCorrected);
-    //=> true
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch!
-    console.log(res.from.text.didYouMean);
-    //=> false
-}).catch(err => {
-    console.error(err);
-});
-```
+const res = await translate('I spea Dutch!', { from: 'en', to: 'nl', autoCorrect: true });
 
-Sometimes, the API will not use the auto corrected text in the translation:
+console.log(res.from.text.didYouMean); // => true
+console.log(res.from.text.value); // => 'I [speak] Dutch!'
 
-```js
-translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
-    console.log(res);
-    console.log(res.text);
-    //=> Ik spea Nederlands!
-    console.log(res.from.text.autoCorrected);
-    //=> false
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch!
-    console.log(res.from.text.didYouMean);
-    //=> true
-}).catch(err => {
-    console.error(err);
-});
+const correctedText = res.from.text.value.replace(/\[([a-z]+)\]/ig, '$1'); // => 'I speak Dutch!'
+const finalRes = await translate(correctedText, { from: 'en', to: 'nl' });
+
+console.log(finalRes.text); // => 'Ik spreek Nederlands!'
 ```
 
 You can also add languages in the code and use them in the translation:
-
 ``` js
 translate = require('google-translate-api');
 translate.languages['sr-Latn'] = 'Serbian Latin';
@@ -115,8 +95,6 @@ translate('Ik spreek Engels', {to: 'en'}, {
   }
 )}).then(res => {
     // do something
-}).catch(err => {
-    console.error(err);
 });
 ```
 
@@ -190,6 +168,9 @@ translate('I spea Dutch').then(res => {
 });
 ```
 Otherwise, it will be an empty `string` (`''`).
+
+## Related projects
+* [Translateer](https://github.com/Songkeys/Translateer) - uses Puppeteer to access Google Translate API.
 
 ## License
 
