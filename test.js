@@ -219,3 +219,9 @@ test('test zh-tw unsupported', t => {
 test('test zh-CN supported – by name', t => {
     t.true(languages.isSupported('chinese (simplified)'));
 });
+
+test('translate "smug" to es (#88)', async t => {
+    const res = await translate('smug', {to: 'es'});
+
+    t.is(res.text, 'presumida');
+});
