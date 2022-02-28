@@ -33,6 +33,7 @@ function translate(text, opts, gotopts) {
     opts.from = opts.from || 'auto';
     opts.to = opts.to || 'en';
     opts.tld = opts.tld || 'com';
+    opts.autoCorrect = opts.autoCorrect === undefined ? false : Boolean(opts.autoCorrect);
 
     opts.from = languages.getCode(opts.from);
     opts.to = languages.getCode(opts.to);
@@ -57,13 +58,12 @@ function translate(text, opts, gotopts) {
             '_reqid': Math.floor(1000 + (Math.random() * 9000)),
             'rt': 'c'
         };
-        console.log(data);
+
         return data;
     }).then(function (data) {
         url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
-        // format for rpcids = MkEWBc
-        var autoCorrect = true;
-        var freq = [[[rpcids, JSON.stringify([[text, opts.from, opts.to, autoCorrect], [null]]), null, 'generic']]];
+        // === format for freq below is only for rpcids = MkEWBc ===
+        var freq = [[[rpcids, JSON.stringify([[text, opts.from, opts.to, opts.autoCorrect], [null]]), null, 'generic']]];
         gotopts.body = 'f.req=' + encodeURIComponent(JSON.stringify(freq)) + '&';
         gotopts.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 

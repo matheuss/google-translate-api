@@ -13,6 +13,7 @@ declare namespace googleTranslateApi {
     from?: string;
     to?: string;
     tld?: string;
+    autoCorrect?: boolean;
   }
 
   export interface ITranslateLanguage {
