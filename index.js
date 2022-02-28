@@ -57,14 +57,13 @@ function translate(text, opts, gotopts) {
             '_reqid': Math.floor(1000 + (Math.random() * 9000)),
             'rt': 'c'
         };
-        console.log(data)
+        console.log(data);
         return data;
     }).then(function (data) {
         url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
-        // freq for rpcids = MkEWBc
-        var freq = [[[rpcids, JSON.stringify([[text, opts.from, opts.to, false], [null]]), null, 'generic']]];
-        // freq for rpcids = exi25c
-        // var freq = [[[rpcids, JSON.stringify([[[ opts.from, opts.to ]]]), null, 'generic']]];
+        // format for rpcids = MkEWBc
+        var autoCorrect = true;
+        var freq = [[[rpcids, JSON.stringify([[text, opts.from, opts.to, autoCorrect], [null]]), null, 'generic']]];
         gotopts.body = 'f.req=' + encodeURIComponent(JSON.stringify(freq)) + '&';
         gotopts.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
