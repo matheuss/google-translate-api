@@ -229,6 +229,9 @@ test('translate "smug" to es (#88)', async t => {
 test('autoCorrect', async t => {
     const res = await translate('I spea Dutch!', {from: 'en', to: 'nl', autoCorrect: true});
 
+    // temp: for gh actions
+    console.log(res);
+
     t.is(res.from.text.didYouMean, true);
     t.is(res.from.text.value, 'I [speak] Dutch!');
 
