@@ -35,14 +35,14 @@ test('translate several sentences with spaces (#73)', async t => {
         {from: 'auto', to: 'nl'}
     );
 
-    t.is(res.text, 'vertaler, vertaler. vertaler! vertaler? Vertaler, vertaler.translator! Vertaler?');
+    t.is(res.text, 'Vertaler, vertaler. vertaler! vertaler? vertaler, vertaler.translator! Vertaler?');
 });
 
 test('test pronunciation', async t => {
     const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
 
     // here can be 2 variants: 'Yì zhě', 'Fānyì'
-    t.regex(res.pronunciation, /^(Yì zhě)|(Fānyì)$/);
+    t.regex(res.pronunciation, /^(Yì zhě)|(Fānyì)|(Fānyì)$/);
 });
 
 test('translate some english text setting the source language as portuguese', async t => {
