@@ -22,6 +22,9 @@
     "build": "npm run build:esm && npm run build:cjs",
     "release": "npm run lint && npm t && npm run build && np --yolo --no-release-draft"
   },
+  "lint-staged": {
+    "{src,test}/**/*.ts": "eslint --ext .ts"
+  },
   "dependencies": {
     "@types/http-errors": "^1.8.2",
     "http-errors": "^2.0.0",
