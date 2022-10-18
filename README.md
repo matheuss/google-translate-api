@@ -10,17 +10,16 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 
 <!-- toc -->
 
-- [google-translate-api](#google-translate-api)
-  - [Contents](#contents)
-  - [Features](#features)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Usage with proxy](#usage-with-proxy)
-    - [Usage in react-native](#usage-in-react-native)
-    - [Usage in browser](#usage-in-browser)
-  - [API](#api)
-  - [Related projects](#related-projects)
-  - [License](#license)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Usage in Node.js](#usage-in-nodejs)
+  * [Usage with proxy](#usage-with-proxy)
+  * [Usage in react-native](#usage-in-react-native)
+  * [Usage in browser](#usage-in-browser)
+- [API](#api)
+- [Related projects](#related-projects)
+- [License](#license)
 
 <!-- tocstop -->
 
@@ -37,6 +36,7 @@ npm install @vitalets/google-translate-api
 ```
 
 ## Usage
+### Usage in Node.js
 ```ts
 import { translate } from '@vitalets/google-translate-api';
 
