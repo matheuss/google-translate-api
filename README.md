@@ -1,18 +1,16 @@
 # google-translate-api
 [![Actions Status](https://github.com/vitalets/google-translate-api/workflows/autotests/badge.svg)](https://github.com/vitalets/google-translate-api/actions)
 [![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
-[![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
 
 A **free** and **unlimited** API for Google Translate :dollar: :no_entry_sign: for Node.js.
 
-In version 9+ library was fully rewritten. For **legacy version (<=8)** please see [README_legacy.md](/README_legacy.md)
+**In version 9+ library was fully rewritten. For legacy versions (<=8) please see [legacy branch](https://github.com/vitalets/google-translate-api/tree/legacy).**
 
-## Features 
+## Features
 
 - Auto language detection
 - Spelling correction
-- Language correction 
+- Language correction
 - Fast and reliable – it uses the same servers that [translate.google.com](https://translate.google.com) uses
 
 ## Why this fork?
@@ -29,7 +27,7 @@ This fork of original [matheuss/google-translate-api](https://github.com/matheus
 - Added TypeScript definitions (see [#50](https://github.com/vitalets/google-translate-api/pull/50), thanks to [@olavoparno](https://github.com/olavoparno))
 - Migrated to Google's latest batch-style RPC API (see [#60](https://github.com/vitalets/google-translate-api/pull/60), thanks to [@vkedwardli](https://github.com/vkedwardli))
 
-## Install 
+## Install
 
 ```
 npm install @vitalets/google-translate-api
@@ -53,7 +51,7 @@ If server returns **Response code 403 (Forbidden)** try set option `client=gtx`:
 const res = await translate('Ik spreek Engels', { to: 'en', client: 'gtx' }).then(res => { ... });
 ```
 
-> Please note that maximum text length for single translation call is **5000** characters. 
+> Please note that maximum text length for single translation call is **5000** characters.
 > In case of longer text you should split it on chunks, see [#20](https://github.com/vitalets/google-translate-api/issues/20).
 
 ### Autocorrect
@@ -86,7 +84,7 @@ You can use **proxy** to bypass them:
 const tunnel = require('tunnel');
 translate('Ik spreek Engels', {to: 'en'}, {
     agent: tunnel.httpsOverHttp({
-    proxy: { 
+    proxy: {
       host: 'whateverhost',
       proxyAuth: 'user:pass',
       port: '8080',
