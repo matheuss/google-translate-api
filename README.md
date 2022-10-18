@@ -45,8 +45,7 @@ console.log(text) // => 'Hello World! How are you?'
 ```
 
 ### Usage with proxy
-Google Translate has request limits. If too many requests are made, you can get a 429 error.
-You can use **proxy** to bypass them:
+Google Translate has request limits. If too many requests are made, you can get a **429 error**. You can use **proxy** to bypass them:
 
 ```ts
 import { translate } from '@vitalets/google-translate-api';
@@ -58,6 +57,8 @@ const { text } = await translate('Привет, мир!', {
   fetchOptions: { agent }
 });
 ```
+
+> Available proxy list you can find [here](https://free-proxy-list.net/).
 
 ### Usage in react-native
 tbd
