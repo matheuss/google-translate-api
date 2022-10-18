@@ -10,16 +10,18 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 
 <!-- toc -->
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-  * [Usage in Node.js](#usage-in-nodejs)
-  * [Usage with proxy](#usage-with-proxy)
-  * [Usage in react-native](#usage-in-react-native)
-  * [Usage in browser](#usage-in-browser)
-- [API](#api)
-- [Related projects](#related-projects)
-- [License](#license)
+- [google-translate-api](#google-translate-api)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Usage in Node.js](#usage-in-nodejs)
+    - [Usage with proxy](#usage-with-proxy)
+    - [Usage in react-native](#usage-in-react-native)
+    - [Usage in browser](#usage-in-browser)
+  - [API](#api)
+  - [Related projects](#related-projects)
+  - [License](#license)
 
 <!-- tocstop -->
 
@@ -45,7 +47,7 @@ console.log(text) // => 'Hello World! How are you?'
 ```
 
 ### Usage with proxy
-Google Translate has request limits. If too many requests are made, you can get a **429 error**. You can use **proxy** to bypass them:
+Google Translate has request limits. If too many requests are made, you can get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
 
 ```ts
 import { translate } from '@vitalets/google-translate-api';
@@ -54,11 +56,24 @@ import createHttpProxyAgent from 'http-proxy-agent';
 const agent = createHttpProxyAgent('http://103.152.112.162:80');
 const { text } = await translate('Привет, мир!', {
   to: 'en',
-  fetchOptions: { agent }
+  fetchOptions: { agent },
 });
 ```
-
 > Available proxy list you can find [here](https://free-proxy-list.net/).
+
+Common pattern for selecting proxy is following:
+```ts
+  try {
+    const { text } = await translate('Привет, мир!', {
+      to: 'en',
+      fetchOptions: { agent },
+    });
+  } catch (e) {
+    if (e.name === 'TooManyRequestsError') {
+      // retry with another proxy agent
+    }
+  }
+```
 
 ### Usage in react-native
 tbd
