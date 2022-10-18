@@ -6,6 +6,8 @@
 
 A **free** and **unlimited** API for Google Translate :dollar: :no_entry_sign: for Node.js.
 
+In version 9+ library was fully rewritten. For **legacy version (<=8)** please see [README_legacy.md](/README_legacy.md)
+
 ## Features 
 
 - Auto language detection
@@ -98,7 +100,7 @@ translate('Ik spreek Engels', {to: 'en'}, {
 });
 ```
 
-## Does it work from web page context?
+## Does it work in browser?
 No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains.
 
 ## API

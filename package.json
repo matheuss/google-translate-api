@@ -1,20 +1,44 @@
 {
   "name": "@vitalets/google-translate-api",
-  "version": "8.0.0",
   "description": "A free and unlimited API for Google Translate",
-  "main": "index.js",
+  "version": "8.0.0",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
   "scripts": {
-    "lint": "xo",
-    "test": "nyc ava",
-    "check": "node check.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "release": "npm run lint && npm test && np --yolo --no-release-draft"
+    "prepare": "git config core.hooksPath ./.hooks",
+    "lint": "eslint src test --ext .ts",
+    "tsc": "tsc --noEmit",
+    "check": "ts-node-esm check.ts",
+    "test": "mocha -n loader=ts-node/esm test/setup.ts test/specs/*.ts",
+    "build:esm": "rm -rf dist/esm && tsc -p tsconfig.build.json",
+    "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig.build.cjs.json && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
+    "build": "npm run build:esm && npm run build:cjs",
+    "release": "npm run lint && npm t && npm run build && np --yolo --no-release-draft"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run lint && npm test"
-    }
+  "dependencies": {
+    "@types/http-errors": "^1.8.2",
+    "http-errors": "^2.0.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.8.3",
+    "@types/node-fetch": "^2.6.2",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "http-proxy-agent": "^5.0.0",
+    "mocha": "^10.1.0",
+    "np": "^7.6.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
   },
   "repository": {
     "type": "git",
@@ -24,38 +48,9 @@
     "translate",
     "translator",
     "google",
-    "translate",
     "api",
     "free",
     "language"
   ],
-  "author": {
-    "name": "Matheus Fernandes",
-    "email": "npm@matheus.top",
-    "url": "http://matheus.top"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vitalets/google-translate-api/issues"
-  },
-  "homepage": "https://github.com/vitalets/google-translate-api#readme",
-  "dependencies": {
-    "configstore": "^5.0.1",
-    "got": "^9.6.0"
-  },
-  "devDependencies": {
-    "ava": "^3.15.0",
-    "codecov": "^3.8.1",
-    "coveralls": "^2.11.11",
-    "husky": "^3.0.4",
-    "np": "^7.6.0",
-    "nyc": "^15.1.0",
-    "xo": "^0.16.0"
-  },
-  "xo": {
-    "space": 4,
-    "parserOptions": {
-      "ecmaScript": 7
-    }
-  }
+  "license": "MIT"
 }
