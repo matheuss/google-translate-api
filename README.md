@@ -1,6 +1,7 @@
 # google-translate-api
 [![Actions Status](https://github.com/vitalets/google-translate-api/workflows/autotests/badge.svg)](https://github.com/vitalets/google-translate-api/actions)
 [![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
+[![license](https://img.shields.io/npm/l/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
 
 A **free** and **unlimited** API for Google Translate for Node.js.
 
