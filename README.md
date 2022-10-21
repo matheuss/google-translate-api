@@ -13,10 +13,10 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-  * [Usage in Node.js](#usage-in-nodejs)
-  * [Usage with proxy](#usage-with-proxy)
-  * [Usage in react-native](#usage-in-react-native)
-  * [Usage in browser](#usage-in-browser)
+  * [Node.js](#nodejs)
+  * [React-native](#react-native)
+  * [Browser](#browser)
+- [Limits](#limits)
 - [API](#api)
 - [Related projects](#related-projects)
 - [License](#license)
@@ -36,7 +36,7 @@ npm install @vitalets/google-translate-api
 ```
 
 ## Usage
-### Usage in Node.js
+### Node.js
 ```ts
 import { translate } from '@vitalets/google-translate-api';
 
@@ -44,7 +44,13 @@ const { text } = await translate('Привет, мир! Как дела?', { to:
 console.log(text) // => 'Hello World! How are you?'
 ```
 
-### Usage with proxy
+### React-native
+tbd
+
+### Browser
+This library **does not work in browser** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
+
+## Limits
 Google Translate has request limits. If too many requests are made, you can get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
 
 ```ts
@@ -72,12 +78,6 @@ Common pattern for selecting proxy is following:
     }
   }
 ```
-
-### Usage in react-native
-tbd
-
-### Usage in browser
-This library **does not work in browser** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
 
 ## API
 tbd
