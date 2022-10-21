@@ -11,18 +11,16 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 
 <!-- toc -->
 
-- [google-translate-api](#google-translate-api)
-  - [Contents](#contents)
-  - [Features](#features)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Node.js](#nodejs)
-    - [React-native](#react-native)
-    - [Browser](#browser)
-  - [Limits](#limits)
-  - [API](#api)
-  - [Related projects](#related-projects)
-  - [License](#license)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Node.js](#nodejs)
+  * [React-native](#react-native)
+  * [Browser](#browser)
+- [Limits](#limits)
+- [API](#api)
+- [Related projects](#related-projects)
+- [License](#license)
 
 <!-- tocstop -->
 
