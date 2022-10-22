@@ -16,7 +16,8 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 - [Usage](#usage)
   * [Node.js](#nodejs)
   * [React-native](#react-native)
-  * [Browser](#browser)
+  * [Web pages](#web-pages)
+  * [Browser extensions](#browser-extensions)
 - [Limits](#limits)
 - [API](#api)
 - [Related projects](#related-projects)
@@ -49,8 +50,41 @@ console.log(text) // => 'Hello World! How are you?'
 ### React-native
 tbd
 
-### Browser
-This library **does not work in browser** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
+### Web pages
+This library **does not work inside web pages** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
+
+### Browser extensions
+Although library does not work in regular web pages it can be used in browser extensions.
+Extensions background and popup pages are [not limited](https://developer.chrome.com/docs/extensions/mv3/xhr/) with same origin policy. To use translation API you should do the following:
+
+1. Add host permissions to `manifest.json`:
+   ```diff
+   + "host_permissions": [
+   +    "https://translate.google.com/"
+   +  ]
+   ```
+
+2. Import `translate` as usual in background or popup script:
+   ```js
+   // background.js
+   import { translate } from '@vitalets/google-translate-api';
+
+   const { text } = await translate('Привет мир');
+
+   console.log(text);
+   ```
+
+3. Bundle code (for example with `webpack`):
+   ```js
+   // webpack.config.js
+   module.exports = {
+     mode: 'development',
+     entry: './background.js',
+     output: {
+       filename: 'bundle.js',
+     },
+   };
+   ```
 
 ## Limits
 Google Translate has request limits. If too many requests are made, you can get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
