@@ -6,6 +6,8 @@
 
 A **free** and **unlimited** API for Google Translate :dollar: :no_entry_sign: for Node.js.
 
+**The library was fully rewritten in upcoming v9 release. Feel free to [check it out](https://github.com/vitalets/google-translate-api/issues/70#issuecomment-1282886088)!**
+
 ## Features 
 
 - Auto language detection
