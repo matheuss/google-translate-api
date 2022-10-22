@@ -48,7 +48,7 @@ console.log(text) // => 'Hello World! How are you?'
 ```
 
 ### React-native
-tbd
+Since react-native has [full support of fetch API](https://reactnative.dev/docs/network) translation works the same way as in Node.js.
 
 ### Web pages
 This library **does not work inside web pages** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
