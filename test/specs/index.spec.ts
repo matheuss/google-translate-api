@@ -10,8 +10,8 @@ it('translate', async () => {
   ]);
 });
 
-it('invalid tld', async () => {
-  const promise = translate('Привет, мир! Как дела?', { tld: 'foo' });
+it('invalid host', async () => {
+  const promise = translate('Привет, мир! Как дела?', { host: 'foo' });
   await assert.rejects(promise, /FetchError/);
 });
 

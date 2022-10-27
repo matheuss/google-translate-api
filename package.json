@@ -40,6 +40,7 @@
     "eslint": "^8.25.0",
     "eslint-plugin-mocha": "^10.1.0",
     "http-proxy-agent": "^5.0.0",
+    "https-proxy-agent": "^5.0.1",
     "markdown-toc": "^1.2.0",
     "mocha": "^10.1.0",
     "np": "^7.6.2",

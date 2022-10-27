@@ -2,10 +2,10 @@ import fetch from 'node-fetch';
 import createHttpError from 'http-errors';
 import { RawResponse, Sentence, TranslateOptions } from './types.js';
 
-const defaults: Required<Pick<TranslateOptions, 'from' | 'to' | 'tld'>> = {
+const defaults: Required<Pick<TranslateOptions, 'from' | 'to' | 'host'>> = {
   from: 'auto',
   to: 'en',
-  tld: 'com',
+  host: 'translate.google.com',
 };
 
 export async function translate(inputText: string, options?: TranslateOptions) {
@@ -30,9 +30,9 @@ export class Translator {
   }
 
   protected buildUrl() {
-    const { tld } = this.options;
+    const { host } = this.options;
     return [
-      `https://translate.google.${tld}/translate_a/single`,
+      `https://${host}/translate_a/single`,
       '?client=at',
       '&dt=t',  // return sentences
       '&dt=rm', // add translit to sentences

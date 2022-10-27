@@ -3,7 +3,7 @@ import { RequestInit } from 'node-fetch';
 export interface TranslateOptions {
   from?: string;
   to?: string;
-  tld?: string;
+  host?: string;
   fetchOptions?: Partial<RequestInit>;
 }
 
