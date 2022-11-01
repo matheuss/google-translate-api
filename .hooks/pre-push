@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Exit on any error
+set -euo pipefail
+
+npm run lint
+npm test

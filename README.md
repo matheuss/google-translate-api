@@ -1,179 +1,131 @@
 # google-translate-api
 [![Actions Status](https://github.com/vitalets/google-translate-api/workflows/autotests/badge.svg)](https://github.com/vitalets/google-translate-api/actions)
 [![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
-[![Coverage Status](https://coveralls.io/repos/github/vitalets/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/vitalets/google-translate-api?branch=master)
+[![license](https://img.shields.io/npm/l/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
 
-A **free** and **unlimited** API for Google Translate :dollar: :no_entry_sign: for Node.js.
+A **free** and **unlimited** API for Google Translate for Node.js.
 
-**The library was fully rewritten in upcoming v9 release. Feel free to [check it out](https://github.com/vitalets/google-translate-api/issues/70#issuecomment-1282886088)!**
+**In version 9+ library was fully rewritten. For legacy documentation please see [legacy branch](https://github.com/vitalets/google-translate-api/tree/legacy).**
 
-## Features 
 
-- Auto language detection
-- Spelling correction
-- Language correction 
-- Fast and reliable – it uses the same servers that [translate.google.com](https://translate.google.com) uses
+## Contents
 
-## Why this fork?
-This fork of original [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) contains several improvements:
+<!-- toc -->
 
-- New option `client="t|gtx"`. Setting `client="gtx"` seems to work even with outdated token, see [this discussion](https://github.com/matheuss/google-translate-api/issues/79#issuecomment-425679193) for details
-- Fixed extraction of TKK ceed from current `https://translate.google.com` sources (via [@vitalets/google-translate-token](https://github.com/vitalets/google-translate-token))
-- Removed unsecure `unsafe-eval` dependency (See [#2](https://github.com/vitalets/google-translate-api/pull/2))
-- Added [daily CI tests](https://travis-ci.org/vitalets/google-translate-api/builds) to get notified if Google API changes
-- Added support for custom `tld` (especially to support `translate.google.cn`, see [#7](https://github.com/vitalets/google-translate-api/pull/7))
-- Added support for outputting pronunciation (see [#17](https://github.com/vitalets/google-translate-api/pull/17))
-- Added support for custom [got](https://github.com/sindresorhus/got) options. It allows to use proxy and bypass request limits (see [#25](https://github.com/vitalets/google-translate-api/pull/25))
-- Added support for language extensions from outside of the API (see [#18](https://github.com/vitalets/google-translate-api/pull/18))
-- Added TypeScript definitions (see [#50](https://github.com/vitalets/google-translate-api/pull/50), thanks to [@olavoparno](https://github.com/olavoparno))
-- Migrated to Google's latest batch-style RPC API (see [#60](https://github.com/vitalets/google-translate-api/pull/60), thanks to [@vkedwardli](https://github.com/vkedwardli))
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Node.js](#nodejs)
+  * [React-native](#react-native)
+  * [Web pages](#web-pages)
+  * [Browser extensions](#browser-extensions)
+- [Limits](#limits)
+- [API](#api)
+- [Related projects](#related-projects)
+- [License](#license)
 
-## Install 
+<!-- tocstop -->
 
+## Features
+
+* auto language detection
+* all [Google Translate languages](https://cloud.google.com/translate/docs/languages) supported
+* react-native supported
+* transliteration
+
+## Installation
 ```
 npm install @vitalets/google-translate-api
 ```
 
 ## Usage
+### Node.js
+```ts
+import { translate } from '@vitalets/google-translate-api';
 
-From automatic language detection to English:
+const { text } = await translate('Привет, мир! Как дела?', { to: 'en' });
 
-```js
-const translate = require('@vitalets/google-translate-api');
-
-const res = await translate('Ik spreek Engels', {to: 'en'});
-
-console.log(res.text); //=> I speak English
-console.log(res.from.language.iso);  //=> nl
+console.log(text) // => 'Hello World! How are you?'
 ```
 
-If server returns **Response code 403 (Forbidden)** try set option `client=gtx`:
-```js
-const res = await translate('Ik spreek Engels', { to: 'en', client: 'gtx' }).then(res => { ... });
+### React-native
+Since react-native has [full support of fetch API](https://reactnative.dev/docs/network) translation works the same way as in Node.js.
+
+### Web pages
+This library **does not work inside web pages** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
+
+### Browser extensions
+Although library does not work in regular web pages it can be used in browser extensions.
+Extensions background and popup pages are [not limited](https://developer.chrome.com/docs/extensions/mv3/xhr/) with same origin policy. To use translation API you should do the following:
+
+1. Add host permissions to `manifest.json`:
+   ```diff
+   + "host_permissions": [
+   +    "https://translate.google.com/"
+   +  ]
+   ```
+
+2. Import `translate` as usual in background or popup script:
+   ```js
+   // background.js
+   import { translate } from '@vitalets/google-translate-api';
+
+   const { text } = await translate('Привет мир');
+
+   console.log(text);
+   ```
+
+3. Bundle code (for example with `webpack`):
+   ```js
+   // webpack.config.js
+   module.exports = {
+     mode: 'development',
+     entry: './background.js',
+     output: {
+       filename: 'bundle.js',
+     },
+   };
+   ```
+
+## Limits
+Google Translate has request limits. If too many requests are made, you can get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
+
+```ts
+import { translate } from '@vitalets/google-translate-api';
+import createHttpProxyAgent from 'http-proxy-agent';
+
+const agent = createHttpProxyAgent('http://103.152.112.162:80');
+const { text } = await translate('Привет, мир!', {
+  to: 'en',
+  fetchOptions: { agent },
+});
 ```
+> Available proxy list you can find [here](https://free-proxy-list.net/).
 
-> Please note that maximum text length for single translation call is **5000** characters. 
-> In case of longer text you should split it on chunks, see [#20](https://github.com/vitalets/google-translate-api/issues/20).
-
-### Autocorrect
-From English to Dutch with a typo (autoCorrect):
-
-```js
-const res = await translate('I spea Dutch!', { from: 'en', to: 'nl', autoCorrect: true });
-
-console.log(res.from.text.didYouMean); // => true
-console.log(res.from.text.value); // => 'I [speak] Dutch!'
-
-const correctedText = res.from.text.value.replace(/\[([a-z]+)\]/ig, '$1'); // => 'I speak Dutch!'
-const finalRes = await translate(correctedText, { from: 'en', to: 'nl' });
-
-console.log(finalRes.text); // => 'Ik spreek Nederlands!'
-```
-
-You can also add languages in the code and use them in the translation:
-``` js
-translate = require('google-translate-api');
-translate.languages['sr-Latn'] = 'Serbian Latin';
-
-translate('translator', {to: 'sr-Latn'}).then(res => ...);
-```
-
-## Proxy
-Google Translate has request limits. If too many requests are made, you can either end up with a 429 or a 503 error.
-You can use **proxy** to bypass them:
-```js
-const tunnel = require('tunnel');
-translate('Ik spreek Engels', {to: 'en'}, {
-    agent: tunnel.httpsOverHttp({
-    proxy: { 
-      host: 'whateverhost',
-      proxyAuth: 'user:pass',
-      port: '8080',
-      headers: {
-        'User-Agent': 'Node'
-      }
+Common pattern for selecting proxy is following:
+```ts
+  try {
+    const { text } = await translate('Привет, мир!', {
+      to: 'en',
+      fetchOptions: { agent },
+    });
+  } catch (e) {
+    if (e.name === 'TooManyRequestsError') {
+      // retry with another proxy agent
     }
   }
-)}).then(res => {
-    // do something
-});
 ```
-
-## Does it work from web page context?
-No. `https://translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) http headers allowing access from other domains.
 
 ## API
-
-### translate(text, [options], [gotOptions])
-
-#### text
-
-Type: `string`
-
-The text to be translated
-
-#### options
-
-Type: `object`
-
-##### from
-Type: `string` Default: `auto`
-
-The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/vitalets/google-translate-api/blob/master/languages.js)
-
-##### to
-Type: `string` Default: `en`
-
-The language in which the text should be translated. Must be one of the codes/names (case sensitive!) contained in [languages.js](https://github.com/vitalets/google-translate-api/blob/master/languages.js).
-
-##### raw
-Type: `boolean` Default: `false`
-
-If `true`, the returned object will have a `raw` property with the raw response (`string`) from Google Translate.
-
-##### client
-Type: `string` Default: `"t"`
-
-Query parameter `client` used in API calls. Can be `t|gtx`.
-
-##### tld
-Type: `string` Default: `"com"`
-
-TLD for Google translate host to be used in API calls: `https://translate.google.{tld}`.
-
-#### gotOptions
-Type: `object`
-
-The got options: https://github.com/sindresorhus/got#options
-
-### Returns an `object`:
-- `text` *(string)* – The translated text.
-- `from` *(object)*
-  - `language` *(object)*
-    - `didYouMean` *(boolean)* - `true` if the API suggest a correction in the source language
-    - `iso` *(string)* - The [code of the language](https://github.com/vitalets/google-translate-api/blob/master/languages.js) that the API has recognized in the `text`
-  - `text` *(object)*
-    - `autoCorrected` *(boolean)* – `true` if the API has auto corrected the `text`
-    - `value` *(string)* – The auto corrected `text` or the `text` with suggested corrections
-    - `didYouMean` *(boolean)* – `true` if the API has suggested corrections to the `text`
-- `raw` *(string)* - If `options.raw` is true, the raw response from Google Translate servers. Otherwise, `''`.
-
-Note that `res.from.text` will only be returned if `from.text.autoCorrected` or `from.text.didYouMean` equals to `true`. In this case, it will have the corrections delimited with brackets (`[ ]`):
-
-```js
-translate('I spea Dutch').then(res => {
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch
-}).catch(err => {
-    console.error(err);
-});
-```
-Otherwise, it will be an empty `string` (`''`).
+tbd
 
 ## Related projects
-* [Translateer](https://github.com/Songkeys/Translateer) - uses Puppeteer to access Google Translate API.
+* [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) - original repo
+* [Translateer](https://github.com/Songkeys/Translateer) - uses Puppeteer to access Google Translate API
+* [hua1995116/google-translate-open-api](https://github.com/hua1995116/google-translate-open-api)
+* [google-translate-api-x](https://github.com/AidanWelch/google-translate-api)
 
 ## License
-
 MIT © [Matheus Fernandes](http://matheus.top), forked and maintained by [Vitaliy Potapov](https://github.com/vitalets).
+
+<a href="https://www.buymeacoffee.com/vitpotapov" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
