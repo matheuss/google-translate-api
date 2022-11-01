@@ -21,6 +21,8 @@ A **free** and **unlimited** API for Google Translate for Node.js.
   * [Browser extensions](#browser-extensions)
 - [Limits](#limits)
 - [API](#api)
+    + [Parameters](#parameters)
+    + [Response](#response)
 - [Related projects](#related-projects)
 - [License](#license)
 
@@ -117,7 +119,22 @@ Common pattern for selecting proxy is following:
 ```
 
 ## API
-tbd
+
+```ts
+translate(text: string, options?: Options): Promise<Response>
+```
+
+#### Parameters
+* `text` *(string)* - The text to be translated
+* `options` *(object)*
+  - `from` *(string)* - The language of `text`. Must be `auto` or one of the [supported languages](https://cloud.google.com/translate/docs/languages). Default: `auto`
+  - `to` *(string)* - The language in which the text should be translated. Must be one of the [supported languages](https://cloud.google.com/translate/docs/languages). Default: `auto`
+  - `host` *(string)* - Google translate host to be used in API calls. Default: `translate.google.com`
+  - `fetchOptions` *(object)* - Additional [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters) passed into request.
+
+#### Response
+* `text` *(string)* – The translated text.
+* `raw` *(object)* - Raw responspe from the API. Contains sentences, detected original language and transliteration. [Example response](https://github.com/vitalets/google-translate-api/blob/master/response-sample.json).
 
 ## Related projects
 * [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) - original repo
