@@ -102,6 +102,8 @@ const { text } = await translate('Привет, мир!', {
   fetchOptions: { agent },
 });
 ```
+See [examples/with-proxy.ts] for more details.
+
 > Available proxy list you can find [here](https://free-proxy-list.net/) (with `yes` in Google column).
 
 Common pattern for selecting proxy is following:
