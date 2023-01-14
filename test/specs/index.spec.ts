@@ -1,4 +1,6 @@
+import fs from 'fs';
 import createHttpProxyAgent from 'http-proxy-agent';
+import { extractTooManyRequestsInfo } from '../../src/helpers.js';
 
 it('translate', async () => {
   const { text, raw } = await translate('Привет, мир! Как дела?', { to: 'en' });
@@ -26,4 +28,14 @@ it('proxy', async () => {
     });
     assert.equal(text, 'When Pele\'s boat passed by');
   }
+});
+
+it('extractTooManyRequestsInfo', () => {
+  const html = fs.readFileSync('test/429.html', 'utf8');
+  const res = extractTooManyRequestsInfo(html);
+  assert.deepStrictEqual(res, {
+    ip: '37.252.91.13',
+    time: '2023-01-14T09:09:38Z',
+    url: 'https://translate.google.com/translate_a/single?client=at&dt=t&dt=rm&dj=1',
+  });
 });

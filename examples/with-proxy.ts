@@ -13,7 +13,7 @@ import createHttpProxyAgent from 'http-proxy-agent';
 import { translate } from '../src/index.js';
 
 const proxy = process.argv[2];
-const timeout = 5000;
+const timeoutMs = 5000;
 
 translateWithProxy('Ich muss Deutsch lernen!');
 
@@ -21,7 +21,7 @@ async function translateWithProxy(sourceText: string) {
   console.log(`Using proxy: ${proxy}`);
   console.log(`Translating: ${sourceText}`);
   const ac = new AbortController();
-  const timer = setTimeout(() => ac.abort(), timeout);
+  const timer = setTimeout(() => ac.abort(), timeoutMs);
   const fetchOptions = {
     agent: createHttpProxyAgent(`http://${proxy}`),
     signal: ac.signal,

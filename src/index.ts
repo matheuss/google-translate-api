@@ -1,6 +1,7 @@
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import createHttpError from 'http-errors';
 import { RawResponse, Sentence, TranslateOptions } from './types.js';
+import { extractTooManyRequestsInfo } from './helpers.js';
 
 const defaults: Required<Pick<TranslateOptions, 'from' | 'to' | 'host'>> = {
   from: 'auto',
@@ -23,7 +24,7 @@ export class Translator {
     const url = this.buildUrl();
     const fetchOptions = this.buildFetchOptions();
     const res = await fetch(url, fetchOptions);
-    if (!res.ok) throw createHttpError(res.status, res.statusText);
+    if (!res.ok) throw await this.buildError(res);
     const raw = await res.json() as RawResponse;
     const text = this.buildResText(raw);
     return { text, raw };
@@ -66,5 +67,16 @@ export class Translator {
       .filter((s): s is Sentence => 'trans' in s)
       .map(s => s.trans)
       .join('');
+  }
+
+  protected async buildError(res: Response) {
+    if (res.status === 429) {
+      const text = await res.text();
+      const { ip, time, url } = extractTooManyRequestsInfo(text);
+      const message = `${res.statusText} IP: ${ip}, Time: ${time}, Url: ${url}`;
+      return createHttpError(res.status, message);
+    } else {
+      return createHttpError(res.status, res.statusText);
+    }
   }
 }
