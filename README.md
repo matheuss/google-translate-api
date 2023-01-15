@@ -90,7 +90,7 @@ Extensions background and popup pages are [not limited](https://developer.chrome
    ```
 
 ## Limits
-Google Translate has request limits. If too many requests are made, you can get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
+Google Translate has request limits. If too many requests are made from the same IP address, you will get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
 
 ```ts
 import { translate } from '@vitalets/google-translate-api';
@@ -119,6 +119,7 @@ Common pattern for selecting proxy is following:
     }
   }
 ```
+See [#107](https://github.com/vitalets/google-translate-api/issues/107) for discussion.
 
 ## API
 
