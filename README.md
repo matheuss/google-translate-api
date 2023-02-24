@@ -7,6 +7,8 @@ A **free** and **unlimited** API for Google Translate for Node.js.
 
 **In version 9+ library was fully rewritten. For legacy documentation please see [legacy branch](https://github.com/vitalets/google-translate-api/tree/legacy).**
 
+> DISCLAIMER!
+To be 100% legal please use official [Google Translate API](https://cloud.google.com/translate). This project is mainly for pet projects and prototyping.
 
 ## Contents
 
