@@ -1,7 +1,7 @@
 {
   "name": "@vitalets/google-translate-api",
   "description": "A free and unlimited API for Google Translate",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
