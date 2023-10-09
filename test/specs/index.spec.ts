@@ -1,5 +1,5 @@
 import fs from 'fs';
-import createHttpProxyAgent from 'http-proxy-agent';
+import { HttpProxyAgent } from 'http-proxy-agent';
 import { extractTooManyRequestsInfo } from '../../src/helpers.js';
 
 it('translate to en', async () => {
@@ -42,7 +42,7 @@ it('invalid host', async () => {
 it('proxy', async () => {
   const proxyUrl = process.env.PROXY;
   if (proxyUrl) {
-    const agent = createHttpProxyAgent(proxyUrl);
+    const agent = new HttpProxyAgent(proxyUrl);
     const { text } = await translate('Ia hala ana mai o ka waa o Pele', {
       fetchOptions: { agent }
     });

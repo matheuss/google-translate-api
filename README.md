@@ -96,9 +96,9 @@ Google Translate has request limits. If too many requests are made from the same
 
 ```ts
 import { translate } from '@vitalets/google-translate-api';
-import createHttpProxyAgent from 'http-proxy-agent';
+import { HttpProxyAgent } from 'http-proxy-agent';
 
-const agent = createHttpProxyAgent('http://103.152.112.162:80');
+const agent = new HttpProxyAgent('http://103.152.112.162:80');
 const { text } = await translate('Привет, мир!', {
   to: 'en',
   fetchOptions: { agent },
@@ -106,7 +106,7 @@ const { text } = await translate('Привет, мир!', {
 ```
 See [examples/with-proxy.ts] for more details.
 
-> Available proxy list you can find [here](https://free-proxy-list.net/) (with `yes` in Google column).
+> Available proxy list you can find [here](https://free-proxy-list.net/) (with `anonymous` in **Anonymity* and `yes` in *Google* columns).
 
 Common pattern for selecting proxy is following:
 ```ts

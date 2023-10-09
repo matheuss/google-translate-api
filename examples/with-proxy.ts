@@ -9,7 +9,7 @@
  * npx ts-node-esm examples/with-proxy.ts 8.210.83.33:80
  */
 import { RequestInit } from 'node-fetch';
-import createHttpProxyAgent from 'http-proxy-agent';
+import { HttpProxyAgent } from 'http-proxy-agent';
 import { translate } from '../src/index.js';
 
 const proxy = process.argv[2];
@@ -23,7 +23,7 @@ async function translateWithProxy(sourceText: string) {
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), timeoutMs);
   const fetchOptions = {
-    agent: createHttpProxyAgent(`http://${proxy}`),
+    agent: new HttpProxyAgent(`http://${proxy}`),
     signal: ac.signal,
   } as Partial<RequestInit>;
   try {
