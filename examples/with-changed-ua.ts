@@ -2,7 +2,7 @@
  * Translation example with changed User agent.
  *
  * Usage:
- * npx ts-node-esm examples/with-changed-ua
+ * npx ts-node-esm examples/with-changed-ua.ts
  */
 import { RequestInit } from 'node-fetch';
 import { translate } from '../src/index.js';

@@ -3,7 +3,7 @@
  * Allows to estimate requests limit for your location/env.
  *
  * Usage:
- * npx ts-node-esm examples/hit-too-many-reqs
+ * npx ts-node-esm examples/hit-too-many-reqs.ts
  */
 
 import timers from 'node:timers/promises';

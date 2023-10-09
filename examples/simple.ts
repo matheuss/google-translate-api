@@ -2,7 +2,7 @@
  * Simple translation example.
  *
  * Usage:
- * npx ts-node-esm examples/simple
+ * npx ts-node-esm examples/simple.ts
  */
 
 import { translate } from '../src/index.js';
