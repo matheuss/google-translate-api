@@ -1,0 +1,31 @@
+{
+  "sentences": [
+    {
+      "trans": "Hello World! ",
+      "orig": "Привет, мир!",
+      "backend": 1
+    },
+    {
+      "trans": "How are you?",
+      "orig": "Как дела?",
+      "backend": 10
+    },
+    {
+      "src_translit": "Privet, mir! Kak dela?"
+    }
+  ],
+  "src": "ru",
+  "confidence": 0.9876407,
+  "spell": {},
+  "ld_result": {
+    "srclangs": [
+      "ru"
+    ],
+    "srclangs_confidences": [
+      0.9876407
+    ],
+    "extended_srclangs": [
+      "ru"
+    ]
+  }
+}

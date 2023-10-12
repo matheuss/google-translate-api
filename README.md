@@ -1,133 +1,153 @@
-# google-translate-api [![Build Status](https://travis-ci.org/matheuss/google-translate-api.svg?branch=master)](https://travis-ci.org/matheuss/google-translate-api) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo) [![Coverage Status](https://coveralls.io/repos/github/matheuss/google-translate-api/badge.svg?branch=master)](https://coveralls.io/github/matheuss/google-translate-api?branch=master) [![Known Vulnerabilities](https://snyk.io/test/npm/google-translate-api/badge.svg)](https://snyk.io/test/npm/google-translate-api)
+# google-translate-api
+[![Actions Status](https://github.com/vitalets/google-translate-api/workflows/autotests/badge.svg)](https://github.com/vitalets/google-translate-api/actions)
+[![NPM version](https://img.shields.io/npm/v/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
+[![license](https://img.shields.io/npm/l/@vitalets/google-translate-api.svg)](https://www.npmjs.com/package/@vitalets/google-translate-api)
 
-A **free** and **unlimited** API for Google Translate :dollar::no_entry_sign:
+A **free** and **unlimited** API for Google Translate for Node.js.
 
-## Features 
+**In version 9+ library was fully rewritten. For legacy documentation please see [legacy branch](https://github.com/vitalets/google-translate-api/tree/legacy).**
 
-- Auto language detection
-- Spelling correction
-- Language correction 
-- Fast and reliable – it uses the same servers that [translate.google.com](https://translate.google.com) uses
+> DISCLAIMER!
+To be 100% legal please use official [Google Translate API](https://cloud.google.com/translate). This project is mainly for pet projects and prototyping.
 
-## Install 
+## Contents
 
+<!-- toc -->
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Node.js](#nodejs)
+  * [React-native](#react-native)
+  * [Web pages](#web-pages)
+  * [Browser extensions](#browser-extensions)
+- [Limits](#limits)
+- [API](#api)
+    + [Parameters](#parameters)
+    + [Response](#response)
+- [Related projects](#related-projects)
+- [License](#license)
+
+<!-- tocstop -->
+
+## Features
+
+* auto language detection
+* all [Google Translate languages](https://cloud.google.com/translate/docs/languages) supported
+* react-native supported
+* transliteration
+
+## Installation
 ```
-npm install --save google-translate-api
+npm install @vitalets/google-translate-api
 ```
 
 ## Usage
+### Node.js
+```ts
+import { translate } from '@vitalets/google-translate-api';
 
-From automatic language detection to English:
+const { text } = await translate('Привет, мир! Как дела?', { to: 'en' });
 
-``` js
-const translate = require('google-translate-api');
-
-translate('Ik spreek Engels', {to: 'en'}).then(res => {
-    console.log(res.text);
-    //=> I speak English
-    console.log(res.from.language.iso);
-    //=> nl
-}).catch(err => {
-    console.error(err);
-});
+console.log(text) // => 'Hello World! How are you?'
 ```
 
-From English to Dutch with a typo:
+### React-native
+Since react-native has [full support of fetch API](https://reactnative.dev/docs/network) translation works the same way as in Node.js.
 
-``` js
-translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
-    console.log(res.text);
-    //=> Ik spreek Nederlands!
-    console.log(res.from.text.autoCorrected);
-    //=> true
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch!
-    console.log(res.from.text.didYouMean);
-    //=> false
-}).catch(err => {
-    console.error(err);
+### Web pages
+This library **does not work inside web pages** because `translate.google.com` does not provide [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers allowing access from other domains.
+
+### Browser extensions
+Although library does not work in regular web pages it can be used in browser extensions.
+Extensions background and popup pages are [not limited](https://developer.chrome.com/docs/extensions/mv3/xhr/) with same origin policy. To use translation API you should do the following:
+
+1. Add host permissions to `manifest.json`:
+   ```diff
+   + "host_permissions": [
+   +    "https://translate.google.com/"
+   +  ]
+   ```
+
+2. Import `translate` as usual in background or popup script:
+   ```js
+   // background.js
+   import { translate } from '@vitalets/google-translate-api';
+
+   const { text } = await translate('Привет мир');
+
+   console.log(text);
+   ```
+
+3. Bundle code (for example with `webpack`):
+   ```js
+   // webpack.config.js
+   module.exports = {
+     mode: 'development',
+     entry: './background.js',
+     output: {
+       filename: 'bundle.js',
+     },
+   };
+   ```
+
+## Limits
+Google Translate has request limits. If too many requests are made from the same IP address, you will get a **TooManyRequestsError** (code 429). You can use **proxy** to bypass it:
+
+```ts
+import { translate } from '@vitalets/google-translate-api';
+import { HttpProxyAgent } from 'http-proxy-agent';
+
+const agent = new HttpProxyAgent('http://103.152.112.162:80');
+const { text } = await translate('Привет, мир!', {
+  to: 'en',
+  fetchOptions: { agent },
 });
 ```
+See [examples/with-proxy.ts] for more details.
 
-Sometimes, the API will not use the auto corrected text in the translation:
+> Available proxy list you can find [here](https://free-proxy-list.net/) (with `anonymous` in **Anonymity* and `yes` in *Google* columns).
 
-``` js
-translate('I spea Dutch!', {from: 'en', to: 'nl'}).then(res => {
-    console.log(res);
-    console.log(res.text);
-    //=> Ik spea Nederlands!
-    console.log(res.from.text.autoCorrected);
-    //=> false
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch!
-    console.log(res.from.text.didYouMean);
-    //=> true
-}).catch(err => {
-    console.error(err);
-});
+Common pattern for selecting proxy is following:
+```ts
+  try {
+    const { text } = await translate('Привет, мир!', {
+      to: 'en',
+      fetchOptions: { agent },
+    });
+  } catch (e) {
+    if (e.name === 'TooManyRequestsError') {
+      // retry with another proxy agent
+    }
+  }
 ```
+See [#107](https://github.com/vitalets/google-translate-api/issues/107) for discussion.
 
 ## API
 
-### translate(text, options)
-
-#### text
-
-Type: `string`
-
-The text to be translated
-
-#### options
-
-Type: `object`
-
-##### from
-
-Type: `string` Default: `auto`
-
-The `text` language. Must be `auto` or one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js)
-
-##### to
-
-Type: `string` Default: `en`
-
-The language in which the text should be translated. Must be one of the codes/names (not case sensitive) contained in [languages.js](https://github.com/matheuss/google-translate-api/blob/master/languages.js).
-
-##### raw
-
-Type: `boolean` Default: `false`
-
-If `true`, the returned object will have a `raw` property with the raw response (`string`) from Google Translate.
-
-### Returns an `object`:
-
-- `text` *(string)* – The translated text.
-- `from` *(object)*
-  - `language` *(object)*
-    - `didYouMean` *(boolean)* - `true` if the API suggest a correction in the source language
-    - `iso` *(string)* - The [code of the language](https://github.com/matheuss/google-translate-api/blob/master/languages.js) that the API has recognized in the `text`
-  - `text` *(object)*
-    - `autoCorrected` *(boolean)* – `true` if the API has auto corrected the `text`
-    - `value` *(string)* – The auto corrected `text` or the `text` with suggested corrections
-    - `didYouMean` *(booelan)* – `true` if the API has suggested corrections to the `text`
-- `raw` *(string)* - If `options.raw` is true, the raw response from Google Translate servers. Otherwise, `''`.
-
-Note that `res.from.text` will only be returned if `from.text.autoCorrected` or `from.text.didYouMean` equals to `true`. In this case, it will have the corrections delimited with brackets (`[ ]`):
-
-``` js
-translate('I spea Dutch').then(res => {
-    console.log(res.from.text.value);
-    //=> I [speak] Dutch
-}).catch(err => {
-    console.error(err);
-});
+```ts
+translate(text: string, options?: Options): Promise<Response>
 ```
-Otherwise, it will be an empty `string` (`''`).
 
-## Related
+#### Parameters
+* `text` *(string)* - The text to be translated
+* `options` *(object)*
+  - `from` *(string)* - The language of `text`. Must be `auto` or one of the [supported languages](https://cloud.google.com/translate/docs/languages). Default: `auto`
+  - `to` *(string)* - The language in which the text should be translated. Must be one of the [supported languages](https://cloud.google.com/translate/docs/languages). Default: `auto`
+  - `host` *(string)* - Google translate host to be used in API calls. Default: `translate.google.com`
+  - `fetchOptions` *(object)* - Additional [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters) passed into request.
 
-- [`vertaler`](https://github.com/matheuss/vertaler) – CLI for this module
+#### Response
+* `text` *(string)* – The translated text.
+* `raw` *(object)* - Raw responspe from the API. Contains sentences, detected original language and transliteration. [Example response](https://github.com/vitalets/google-translate-api/blob/master/response-sample.json).
+
+## Related projects
+* [matheuss/google-translate-api](https://github.com/matheuss/google-translate-api) - original repo
+* [Translateer](https://github.com/Songkeys/Translateer) - uses Puppeteer to access Google Translate API
+* [hua1995116/google-translate-open-api](https://github.com/hua1995116/google-translate-open-api)
+* [google-translate-api-x](https://github.com/AidanWelch/google-translate-api)
 
 ## License
+MIT © [Matheus Fernandes](http://matheus.top), forked and maintained by [Vitaliy Potapov](https://github.com/vitalets).
 
-MIT © [Matheus Fernandes](http://matheus.top)
+<a href="https://www.buymeacoffee.com/vitpotapov" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
