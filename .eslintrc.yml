@@ -1,0 +1,29 @@
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+
+parser: '@typescript-eslint/parser'
+
+plugins:
+  - '@typescript-eslint'
+
+env:
+  node: true
+  es2020: true
+
+rules:
+  no-console: error
+  complexity: [error, { max: 6 }]
+  max-depth: [error, { max: 2 }]
+  max-nested-callbacks: [error, { max: 2 }]
+  max-params: [error, { max: 4 }]
+  max-statements: [error, { max: 10 }, { ignoreTopLevelFunctions: false }]
+  max-len: [error, { code: 120, ignoreUrls: true }]
+  max-lines: [error, { max: 200, skipComments: true, skipBlankLines: true }]
+  semi: [error, always]
+  no-multiple-empty-lines: [error, { max: 1 }]
+  space-before-function-paren: [error, { anonymous: always, named: never, asyncArrow: always }]
+  no-constant-condition: [error, { checkLoops: false }]
+  '@typescript-eslint/explicit-module-boundary-types': 0
+  '@typescript-eslint/no-non-null-assertion': 0
+  '@typescript-eslint/no-unused-vars': [error, { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }]

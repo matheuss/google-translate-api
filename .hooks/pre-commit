@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Exit on any error
+set -euo pipefail
+
+npx lint-staged
+# dont run test before commit to not trigger google limits
+# npm test
